@@ -1,0 +1,27 @@
+{
+  "name": "light-server",
+  "version": "0.1.0",
+  "description": "http server with livereload and watching",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/txchen/light-server"
+  },
+  "keywords": [
+    "http",
+    "server",
+    "livereload",
+    "live-reload",
+    "watch",
+    "dev"
+  ],
+  "author": "Tianxiang Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/txchen/light-server/issues"
+  },
+  "homepage": "https://github.com/txchen/light-server"
+}
