@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+var LightServer = require('..')
+
+function main(argv) {
+  var getArg = function() {
+    var args = argv.shift()
+    args = args.split('=')
+    if (args.length > 1) {
+      argv.unshift(args.slice(1).join('='))
+    }
+    return args[0]
+  }
+
+  if (argv.length == 0) {
+    printHelp()
+  }
+
+  var arg, cmd, options = {}, files = [], serveDir
+
+  while (argv.length) {
+    arg = argv.shift()
+    switch(arg) {
+      case '-s':
+        serveDir = argv.shift()
+        break
+      case '-p':
+        options.port = argv.shift()
+        break
+      case '-c':
+        cmd = argv.shift();
+        break;
+      case '-i':
+      case '-I':
+      case '--interval':
+        options.interval = argv.shift();
+        break;
+      case '-d':
+        options.delay = argv.shift();
+        break;
+      case '-v':
+        printVersion()
+        break;
+      case '-h':
+      case '--help':
+        printHelp()
+        break
+      default:
+        files.push(arg);
+        break;
+    }
+  }
+
+  if (serveDir) {
+    ls = new LightServer(serveDir, options)
+    ls.start()
+  }
+}
+
+main(process.argv.slice(2))
+
+function printVersion() {
+  console.log('light-server ' + require('../package').version)
+  process.exit()
+}
+
+function printHelp(code) {
+  var lines = [
+    '',
+    '  Usage:',
+    '    light-server [options..]"',
+    '',
+    '  Options:',
+    '    -s dirToServe             the directory to serve via http',
+    '    -p port                   the port to listen on, default 4000',
+    '    -v                        print the version of package',
+    '    -h, --help                display this message',
+    '',
+    '  Examples:',
+    '    $ light-server -s . -p 7000',
+    ''
+  ]
+  console.log(lines.join('\n'))
+  process.exit(code || 0)
+}

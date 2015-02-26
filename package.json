@@ -18,6 +18,11 @@
     "watch",
     "dev"
   ],
+  "dependencies": {
+    "connect": "~3.3.4",
+    "serve-static": "~1.9.1",
+    "morgan": "~1.5.1"
+  },
   "author": "Tianxiang Chen",
   "license": "MIT",
   "bugs": {
