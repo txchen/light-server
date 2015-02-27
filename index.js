@@ -26,6 +26,7 @@ LightServer.prototype.start = function() {
       }))
      .use(serveStatic(self.serveDir))
      .listen(self.port, function() {
+       console.log('serving ' + self.serveDir + ' as http')
        console.log('listening on http://localhost:' + self.port)
      })
 }

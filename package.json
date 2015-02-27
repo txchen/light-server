@@ -19,6 +19,7 @@
     "dev"
   ],
   "dependencies": {
+    "commander": "^2.6.0",
     "connect": "~3.3.4",
     "connect-inject": "^0.3.2",
     "morgan": "~1.5.1",
