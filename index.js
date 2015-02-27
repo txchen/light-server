@@ -21,6 +21,9 @@ LightServer.prototype.start = function() {
     , app = connect()
 
   app.use(morgan('dev'))
+     .use(require('connect-inject')({
+       snippet: '<script src="__lightserver__/reload-client.js"></script>'
+      }))
      .use(serveStatic(self.serveDir))
      .listen(self.port, function() {
        console.log('listening on http://localhost:' + self.port)
