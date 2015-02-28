@@ -41,11 +41,13 @@ function main(argv) {
   options.port = program.port || 4000
   options.interval = program.interval || 500
 
-  // TODO: handle argument logic
-  if (program.serve) {
-    ls = new LightServer(program.serve, program.watch, program.cmd, options)
-    ls.start()
+  if (!program.serve && !program.watch.length) {
+    console.log('Please use http-server and/or watch, but not nothing.')
+    process.exit(1)
   }
+
+  ls = new LightServer(program.serve, program.watch, program.cmd, options)
+  ls.start()
 }
 
 main(process.argv.slice(2))

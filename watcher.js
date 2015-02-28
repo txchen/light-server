@@ -1,7 +1,7 @@
 var fs = require('fs')
-var glob = require('glob')
-var inherits = require('util').inherits
-var EventEmitter = require('events').EventEmitter
+  , glob = require('glob')
+  , inherits = require('util').inherits
+  , EventEmitter = require('events').EventEmitter
 
 function Watcher(files, interval) {
   var self = this

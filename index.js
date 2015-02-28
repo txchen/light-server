@@ -8,9 +8,10 @@
 
 var connect = require('connect')
   , serveStatic = require('serve-static')
+  , http = require('http')
   , morgan = require('morgan')
   , Watcher = require('./watcher')
-  , exec = require('child_process').exec
+  , lrmiddle = require('./lrmiddle')
   , spawn = require('child_process').spawn
   , os = require('os').type()
 
@@ -30,33 +31,43 @@ function LightServer(serveDir, watchedFiles, command, options) {
 
 LightServer.prototype.start = function() {
   var self = this
-    , app = connect()
+  if (!self.serveDir) {
+    self.watch()
+    return
+  }
+
+  var app = connect()
+  self.lr = new lrmiddle()
 
   app.use(morgan('dev'))
      .use(require('connect-inject')({
-        snippet: '<script src="__lightserver__/reload-client.js"></script>'
+        snippet: '<script src="/__lightserver__/reload-client.js"></script>'
       }))
      .use(serveStatic(self.serveDir))
-     .listen(self.options.port, function() {
-        console.log('serving directory "' + self.serveDir + '" as http')
-        console.log('listening on http://localhost:' + self.options.port)
-      })
+     .use(self.lr.middleFunc)
 
-  self.watch()
+  var server = http.createServer(app)
+  server.listen(self.options.port, function() {
+    console.log('light-server is serving "' + self.serveDir +
+      '" as http://localhost:' + self.options.port + '\n')
+    self.lr.startWS(server) // websocket shares same port with http
+    self.watch()
+  })
 }
 
 LightServer.prototype.watch = function() {
   var self = this
   var watcher = new Watcher(self.watchedFiles, self.options.interval)
   watcher.on('change', function(f) {
-    if (self.executing) {
-      return
-    }
+    if (self.executing) { return }
 
     self.executing = true
     console.log('* file: ' + f + ' changed')
     if (!self.command) {
-      console.log('## trigger reload')
+      if (self.lr) {
+        console.log('## trigger reload')
+        self.lr.triggerReload()
+      }
       self.executing = false
       return
     }
@@ -65,14 +76,24 @@ LightServer.prototype.watch = function() {
     p = spawn(self.shell, [self.firstParam, self.command], { stdio: 'inherit' })
     p.on('close', function (code) {
       if (code !== 0) {
-        console.log('## ERROR: command exited with code ' + code);
+        console.log('## ERROR: command exited with code ' + code)
       } else {
-        console.log('## command exited without error')
-        console.log('## trigger reload')
+        console.log('## command succeeded')
+        if (self.lr) {
+          console.log('## trigger reload')
+          self.lr.triggerReload()
+        }
       }
       self.executing = false
     })
   })
+
+  if (self.watchedFiles.length) {
+    console.log('light-server is watching these files: ' + self.watchedFiles.join(', '))
+    if (self.command) {
+      console.log('  and will run this command before live-reload: ' + self.command)
+    }
+  }
 }
 
 module.exports = LightServer
