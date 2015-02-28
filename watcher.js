@@ -1,0 +1,31 @@
+var fs = require('fs')
+var glob = require('glob')
+var inherits = require('util').inherits
+var EventEmitter = require('events').EventEmitter
+
+function Watcher(files, interval) {
+  var self = this
+  self.interval = interval
+  files.forEach(function(f) {
+    self.watch(f)
+  })
+}
+
+inherits(Watcher, EventEmitter)
+
+Watcher.prototype.watch = function(file) {
+  var self = this
+  if (~file.indexOf('*')) {
+    glob(file, function(err, files) {
+      files.forEach(function(file) {
+        self.watch(file)
+      })
+    })
+  } else {
+    fs.watchFile(file, {interval: self.interval}, function() {
+      self.emit('change', file)
+    })
+  }
+}
+
+module.exports = Watcher

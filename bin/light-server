@@ -8,7 +8,7 @@
  * Copyright (c) 2015 by Tianxiang Chen
  */
 
-var LightServer = require('..')
+var LightServer = require('../index')
 var program = require('commander')
 
 function main(argv) {
@@ -22,7 +22,8 @@ function main(argv) {
     .option('-s, --serve <directory>', 'serve the directory as static http')
     .option('-p, --port <port>', 'http server port, default 4000', parseInt)
     .option('-w, --watch <files to watch>', 'files to watch, in glob format, repeatable', collect, [])
-    .option('-c, --cmd <command>', 'if watched files changed, trigger the command, repeatable', collect, [])
+    .option('-c, --cmd <command>', 'if watched files changed, trigger the command')
+    .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .on('--help', function(){
        console.log('  Examples:')
        console.log('')
@@ -35,12 +36,14 @@ function main(argv) {
     process.argv.push('--help')
   }
   program.parse(process.argv)
-  program.port = program.port || 4000
+
+  options = {}
+  options.port = program.port || 4000
+  options.interval = program.interval || 500
 
   // TODO: handle argument logic
-  options = {}
   if (program.serve) {
-    ls = new LightServer(program.serve, options)
+    ls = new LightServer(program.serve, program.watch, program.cmd, options)
     ls.start()
   }
 }
