@@ -32,9 +32,9 @@ var clientJsContent = [
 var emitter = new EventEmitter
   , wss
 
-function lrmiddle() {}
+function livereload() {}
 
-lrmiddle.prototype.middleFunc = function lrmiddle(req, res, next) {
+livereload.prototype.middleFunc = function livereload(req, res, next) {
   var pathname = parseUrl(req).pathname
   if (parseUrl(req).pathname.indexOf(prefix) == -1) {
     next()
@@ -57,20 +57,20 @@ lrmiddle.prototype.middleFunc = function lrmiddle(req, res, next) {
   next()
 }
 
-lrmiddle.prototype.startWS = function(server) {
+livereload.prototype.startWS = function(server) {
   wss = new WS({server: server})
 
   wss.on('connection', function (ws) {
     emitter.once('reload', function () {
       ws.send(JSON.stringify({r: Date.now().toString()}), function (e) {
-        if (e) { console.log(e) }
+        if (e) { console.log("websocket send error: " + e) }
       })
     })
   })
 }
 
-lrmiddle.prototype.triggerReload = function() {
+livereload.prototype.triggerReload = function() {
   emitter.emit('reload')
 }
 
-module.exports = lrmiddle
+module.exports = livereload

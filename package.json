@@ -1,7 +1,7 @@
 {
   "name": "light-server",
-  "version": "0.1.0",
-  "description": "http server with livereload and watching",
+  "version": "0.1.1",
+  "description": "an http server that can watch files, trigger commands and livereload",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
     "livereload",
     "live-reload",
     "watch",
+    "execute",
     "dev"
   ],
   "bin": {

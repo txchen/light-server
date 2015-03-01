@@ -11,7 +11,7 @@ var connect = require('connect')
   , http = require('http')
   , morgan = require('morgan')
   , Watcher = require('./watcher')
-  , lrmiddle = require('./lrmiddle')
+  , LR = require('./livereload')
   , spawn = require('child_process').spawn
   , os = require('os').type()
 
@@ -37,7 +37,7 @@ LightServer.prototype.start = function() {
   }
 
   var app = connect()
-  self.lr = new lrmiddle()
+  self.lr = new LR()
 
   app.use(morgan('dev'))
      .use(require('connect-inject')({
