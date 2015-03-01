@@ -78,7 +78,7 @@ Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen
 {
   "devDependencies": {
     "browserify": "^8.1.3",
-    "light-server": "^0.1.1",
+    "light-server": "^0.1.2",
     "minifyify": "^6.2.0",
     "riotify": "^0.0.9"
   },
