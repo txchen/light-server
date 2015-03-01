@@ -51,7 +51,7 @@ Options:
 Examples:
 
   $ light-server -s . -p 7000
-  $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo woa!"
+  $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"
 ```
 
 It is quite simple, specify the folder to serve as static http, specify the files to watch, specify the command to run when watched files change, and light-server will do the job.
