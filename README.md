@@ -20,6 +20,7 @@ Then I wrote light-server, with the following features:
 * Trigger custom command if watched files change
 * Trigger browser reload if watched files change
 * Auto inject client reload javascript in html, no need to manually add
+* Live reload websocket server uses the same port as http server
 
 And now my package.json is simpler and cleaner than before :)
 
