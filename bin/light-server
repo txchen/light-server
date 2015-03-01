@@ -28,7 +28,7 @@ function main(argv) {
        console.log('  Examples:')
        console.log('')
        console.log('    $ light-server -s . -p 7000')
-       console.log('    $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo woa!"')
+       console.log('    $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"')
        console.log('')
      })
 
