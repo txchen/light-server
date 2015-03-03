@@ -69,8 +69,13 @@ livereload.prototype.startWS = function(server) {
   })
 }
 
-livereload.prototype.triggerReload = function() {
-  emitter.emit('reload')
+livereload.prototype.triggerReload = function(delay) {
+  if (delay) {
+    console.log('delay reload for ' + delay + ' ms')
+  }
+  setTimeout(function() {
+    emitter.emit('reload')
+  }, delay)
 }
 
 module.exports = livereload

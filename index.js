@@ -66,7 +66,7 @@ LightServer.prototype.watch = function() {
     if (!self.command) {
       if (self.lr) {
         console.log('## trigger reload')
-        self.lr.triggerReload()
+        self.lr.triggerReload(self.options.delay)
       }
       self.executing = false
       return
@@ -81,7 +81,7 @@ LightServer.prototype.watch = function() {
         console.log('## command succeeded')
         if (self.lr) {
           console.log('## trigger reload')
-          self.lr.triggerReload()
+          self.lr.triggerReload(self.options.delay)
         }
       }
       self.executing = false

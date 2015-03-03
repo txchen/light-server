@@ -24,6 +24,7 @@ function main(argv) {
     .option('-w, --watch <files to watch>', 'files to watch, in glob format, repeatable', collect, [])
     .option('-c, --cmd <command>', 'if watched files changed, trigger the command')
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
+    .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .on('--help', function(){
        console.log('  Examples:')
        console.log('')
@@ -40,6 +41,7 @@ function main(argv) {
   options = {}
   options.port = program.port || 4000
   options.interval = program.interval || 500
+  options.delay =program.delay || 0
 
   if (!program.serve && !program.watch.length) {
     console.log('Please use http-server and/or watch, but not nothing.')

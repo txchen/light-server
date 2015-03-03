@@ -104,5 +104,8 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-03-02** `0.1.3`
+Add delay option
+
 **2015-02-28** `0.1.1`
 First version.
