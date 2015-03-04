@@ -47,6 +47,7 @@ Options:
   -w, --watch <files to watch>    files to watch, in glob format, repeatable
   -c, --cmd <command>             if watched files changed, trigger the command
   -i, --interval <watch inteval>  interval in ms of watching, default 500
+  -d, --delay <livereolad delay>  delay in ms before triggering live reload, default 0
 
 Examples:
 
