@@ -50,7 +50,7 @@ function main(argv) {
     process.exit(1)
   }
 
-  ls = new LightServer(program.serve, program.watch, program.cmd, program.proxy, options)
+  ls = LightServer(program.serve, program.watch, program.cmd, program.proxy, options)
   ls.start()
 }
 

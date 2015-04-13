@@ -17,6 +17,7 @@ var connect = require('connect')
   , proxy = require('./proxy')
 
 function LightServer(serveDir, watchedFiles, command, proxyUrl, options) {
+  if (!(this instanceof LightServer)) return new LightServer(serveDir, watchedFiles, command, proxyUrl, options)
   this.serveDir = serveDir
   this.watchedFiles = watchedFiles
   this.command = command
@@ -39,8 +40,7 @@ LightServer.prototype.start = function() {
   }
 
   var app = connect()
-  self.lr = new LR()
-  self.proxy = new proxy()
+  self.lr = LR()
 
   app.use(morgan('dev'))
      .use(require('connect-inject')({
@@ -51,7 +51,7 @@ LightServer.prototype.start = function() {
 
   if (self.proxyUrl) {
     console.log('proxy to ' + self.proxyUrl + ' when 404.')
-    app.use(new proxy(self.proxyUrl).middleFunc)
+    app.use(proxy(self.proxyUrl).middleFunc)
   }
 
   var server = http.createServer(app)
@@ -65,7 +65,7 @@ LightServer.prototype.start = function() {
 
 LightServer.prototype.watch = function() {
   var self = this
-  var watcher = new Watcher(self.watchedFiles, self.options.interval)
+  var watcher = Watcher(self.watchedFiles, self.options.interval)
   watcher.on('change', function(f) {
     if (self.executing) { return }
 

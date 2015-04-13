@@ -32,7 +32,9 @@ var clientJsContent = [
 var emitter = new EventEmitter
   , wss
 
-function livereload() {}
+function livereload() {
+  if (!(this instanceof livereload)) return new livereload()
+}
 
 livereload.prototype.middleFunc = function livereload(req, res, next) {
   var pathname = parseUrl(req).pathname

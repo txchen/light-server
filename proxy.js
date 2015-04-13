@@ -3,6 +3,7 @@ var httpProxy = require('http-proxy')
 var self = this
 
 function proxy(url) {
+  if (!(this instanceof proxy)) return new proxy(url)
   self.proxyUrl = url
   self.proxy = httpProxy.createProxyServer({})
 }

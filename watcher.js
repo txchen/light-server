@@ -4,6 +4,7 @@ var fs = require('fs')
   , EventEmitter = require('events').EventEmitter
 
 function Watcher(files, interval) {
+  if (!(this instanceof Watcher)) return new Watcher(files, interval)
   var self = this
   self.interval = interval
   files.forEach(function(f) {
