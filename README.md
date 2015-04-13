@@ -48,11 +48,13 @@ Options:
   -c, --cmd <command>             if watched files changed, trigger the command
   -i, --interval <watch inteval>  interval in ms of watching, default 500
   -d, --delay <livereolad delay>  delay in ms before triggering live reload, default 0
+  -x, --proxy <upstreamurl>       when file not found, proxy the request to another server
 
 Examples:
 
   $ light-server -s . -p 7000
   $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"
+  $ light-server -s . -x http://localhost:8000
 ```
 
 It is quite simple, specify the folder to serve as static http, specify the files to watch, specify the command to run when watched files change, and light-server will do the job.
@@ -70,6 +72,21 @@ You don't need to use all the features, and that's totally ok:
 Get or POST `http://localhost:PORT/__lightserver__/trigger`, light-server will send reload command to the browser.
 
 It means that it's possible to integrate other tools with light-server.
+
+## Proxy
+
+Proxy feature is useful when our project is some backend language(like go, python) + static web page.
+
+For example, a golang web app exposes REST api via http://host/api/ and server static page from http://host/. Then, when we are writing/debugging the static pages, light-server can be helpful. We can firstly launch the whole app and listen at `http://localhost:9000`, then in another terminal window, launch light-server:
+
+```bash
+$ cd <your static pages dir>
+$ light-server -s . -p 8000 -x http://localhost:9000
+```
+
+Now when you access the static pages/js/css, light-server will return it directly. And if you access something like `http://localhost:8000/v1/myapi`, light-server cannot find the resource, and will proxy the request to upstream - `http://localhost:9000/v1/myapi`, which is the golang app.
+
+This is cool because now you can have live-reload, without changing the golang app to add some dirty hacky changes, and you don't need to change the html to inject any extra js just for development. Light-server deals with all the dirty work.
 
 ## Example
 
@@ -104,6 +121,9 @@ During development, we can use `npm run dev`, which will use light-server to ser
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
 ## Changelog
+
+**2015-04-12** `0.1.4`
+New feature: proxy
 
 **2015-03-02** `0.1.3`
 Add delay option
