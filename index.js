@@ -14,11 +14,13 @@ var connect = require('connect')
   , LR = require('./livereload')
   , spawn = require('child_process').spawn
   , os = require('os').type()
+  , proxy = require('./proxy')
 
-function LightServer(serveDir, watchedFiles, command, options) {
+function LightServer(serveDir, watchedFiles, command, proxyUrl, options) {
   this.serveDir = serveDir
   this.watchedFiles = watchedFiles
   this.command = command
+  this.proxyUrl = proxyUrl
   this.options = options
   if (os === 'Windows_NT') {
     this.shell = 'cmd'
@@ -38,6 +40,7 @@ LightServer.prototype.start = function() {
 
   var app = connect()
   self.lr = new LR()
+  self.proxy = new proxy()
 
   app.use(morgan('dev'))
      .use(require('connect-inject')({
@@ -45,6 +48,11 @@ LightServer.prototype.start = function() {
       }))
      .use(serveStatic(self.serveDir))
      .use(self.lr.middleFunc)
+
+  if (self.proxyUrl) {
+    console.log('proxy to ' + self.proxyUrl + ' when 404.')
+    app.use(new proxy(self.proxyUrl).middleFunc)
+  }
 
   var server = http.createServer(app)
   server.listen(self.options.port, function() {

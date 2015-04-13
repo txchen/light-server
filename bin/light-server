@@ -25,11 +25,13 @@ function main(argv) {
     .option('-c, --cmd <command>', 'if watched files changed, trigger the command')
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
+    .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .on('--help', function(){
        console.log('  Examples:')
        console.log('')
        console.log('    $ light-server -s . -p 7000')
        console.log('    $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"')
+       console.log('    $ light-server -s . -x http://localhost:8000')
        console.log('')
      })
 
@@ -48,7 +50,7 @@ function main(argv) {
     process.exit(1)
   }
 
-  ls = new LightServer(program.serve, program.watch, program.cmd, options)
+  ls = new LightServer(program.serve, program.watch, program.cmd, program.proxy, options)
   ls.start()
 }
 
