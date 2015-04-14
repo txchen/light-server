@@ -50,6 +50,11 @@ function main(argv) {
     process.exit(1)
   }
 
+  if (!program.serve && program.proxy) {
+    console.log('Not serving as http server, cannot set proxy.')
+    process.exit(1)
+  }
+
   ls = LightServer(program.serve, program.watch, program.cmd, program.proxy, options)
   ls.start()
 }
