@@ -5,6 +5,7 @@ var parseUrl = require('parseurl')
   , prefix = '/__lightserver__'
   , clientJsPath = prefix + '/reload-client.js'
   , triggerPath = prefix + '/trigger'
+  , triggerCSSPath = prefix + '/triggercss'
 
 var clientJsContent = [
 'var ws',
@@ -14,6 +15,21 @@ var clientJsContent = [
 '    var data = JSON.parse(e.data)',
 '    if (data.r) {',
 '      location.reload()',
+'    }',
+'    if (data.rcss) {',
+'      refreshCSS()',
+'    }',
+'  }',
+'}',
+'function refreshCSS() {',
+'  console.log("reload css at:" + new Date())',
+'  var sheets = document.getElementsByTagName("link");',
+'  for (var i = 0; i < sheets.length; i++) {',
+'    var elem = sheets[i];',
+'    var rel = elem.rel;',
+'    if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {',
+'      var url = elem.href.replace(/(&|\\?)_cacheOverride=\\d+/, "");',
+'      elem.href = url + (url.indexOf("?") >= 0 ? "&" : "?") + "_cacheOverride=" + (new Date().valueOf());',
 '    }',
 '  }',
 '}',
@@ -56,6 +72,12 @@ livereload.prototype.middleFunc = function livereload(req, res, next) {
     return
   }
 
+  if (pathname == triggerCSSPath) {
+    res.writeHead(200)
+    res.end('ok')
+    emitter.emit('reloadcss')
+  }
+
   next()
 }
 
@@ -64,7 +86,14 @@ livereload.prototype.startWS = function(server) {
 
   wss.on('connection', function (ws) {
     emitter.once('reload', function () {
+      console.log("send reload event via websocket")
       ws.send(JSON.stringify({r: Date.now().toString()}), function (e) {
+        if (e) { console.log("websocket send error: " + e) }
+      })
+    })
+    emitter.on('reloadcss', function () {
+      console.log("send reloadcss event via websocket")
+      ws.send(JSON.stringify({rcss: Date.now().toString()}), function (e) {
         if (e) { console.log("websocket send error: " + e) }
       })
     })
@@ -77,6 +106,15 @@ livereload.prototype.triggerReload = function(delay) {
   }
   setTimeout(function() {
     emitter.emit('reload')
+  }, delay)
+}
+
+livereload.prototype.triggerCSSReload = function(delay) {
+  if (delay) {
+    console.log('delay reloadcss for ' + delay + ' ms')
+  }
+  setTimeout(function() {
+    emitter.emit('reloadcss')
   }, delay)
 }
 
