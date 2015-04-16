@@ -118,7 +118,7 @@ Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify -t [riotify --ext html] -d src/index.js -p [minifyify --compressPath . --map index.js.map --output build/index.js.map] -o build/index.js",
     "build:css": "cp src/main.css build/main.css",
-    "dev": "light-server -s . -w 'src/** # npm run build' -p 9090"
+    "dev": "light-server -s . -p 9090 -w 'src/**/*.js, src/**/*.html # npm run build:js' -w 'src/main.css # npm run build:css # reloadcss'"
   },
   "dependencies": {
     "riot": "^2.0.11"
@@ -130,7 +130,7 @@ The project uses browserify and plugins to bundle the source code into a single 
 
 The build process is defined in script `build`, which is quite straightforward.
 
-During development, we can use `npm run dev`, which will use light-server to serve the static content, and watch the changes of any files under `src` directory. When it detects file change, it would trigger build and if build pass, browser will auto reload.
+During development, we can use `npm run dev`, which will use light-server to serve the static content, and watch the changes of any js/html files under `src` directory. When it detects file change, it would trigger build and if build pass, browser will auto reload. And light-server will watch the source css file, when it changes, trigger reloadcss, which is faster than page refresh.
 
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
