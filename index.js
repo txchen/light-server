@@ -96,12 +96,13 @@ LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, rel
     }
 
     console.log('## executing command: ' + commandToRun)
+    var start = new Date().getTime();
     p = spawn(self.shell, [self.firstParam, commandToRun], { stdio: 'inherit' })
     p.on('close', function (code) {
       if (code !== 0) {
         console.log('## ERROR: command exited with code ' + code)
       } else {
-        console.log('## command succeeded')
+        console.log('## command succeeded in ' + (new Date().getTime() - start) + 'ms')
         if (self.lr) {
           self.lr.trigger(reloadOption, self.options.delay)
         }

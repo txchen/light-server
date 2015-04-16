@@ -20,6 +20,7 @@ Then I wrote light-server, with the following features:
 * Trigger custom command if watched files change
 * Trigger browser reload if watched files change
 * Trigger css reload without refreshing page
+* Live reload does not require any setup, and even works on smart phones
 * Auto inject client reload javascript in html, no need to manually add
 * Live reload websocket server uses the same port as http server
 * Proxy to another http server
@@ -135,6 +136,9 @@ During development, we can use `npm run dev`, which will use light-server to ser
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
 ## Changelog
+
+**2015-04-16** `1.0.1`
+Print command execution duration
 
 **2015-04-15** `1.0.0`
 New feature: watch and reload css without refreshing page
