@@ -16,6 +16,7 @@ inherits(Watcher, EventEmitter)
 
 Watcher.prototype.watch = function(file) {
   var self = this
+  file = file.trim()
   if (~file.indexOf('*')) {
     glob(file, function(err, files) {
       files.forEach(function(file) {
@@ -23,8 +24,10 @@ Watcher.prototype.watch = function(file) {
       })
     })
   } else {
-    fs.watchFile(file, {interval: self.interval}, function() {
-      self.emit('change', file)
+    fs.watchFile(file, {interval: self.interval}, function(curr) {
+      if (curr.isFile()) {
+        self.emit('change', file)
+      }
     })
   }
 }

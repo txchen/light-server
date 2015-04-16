@@ -16,11 +16,10 @@ var connect = require('connect')
   , os = require('os').type()
   , proxy = require('./proxy')
 
-function LightServer(serveDir, watchedFiles, command, proxyUrl, options) {
-  if (!(this instanceof LightServer)) return new LightServer(serveDir, watchedFiles, command, proxyUrl, options)
+function LightServer(serveDir, watchExpressions, proxyUrl, options) {
+  if (!(this instanceof LightServer)) return new LightServer(serveDir, watchExpressions, proxyUrl, options)
   this.serveDir = serveDir
-  this.watchedFiles = watchedFiles
-  this.command = command
+  this.watchExpressions = watchExpressions
   this.proxyUrl = proxyUrl
   this.options = options
   if (os === 'Windows_NT') {
@@ -50,14 +49,17 @@ LightServer.prototype.start = function() {
      .use(self.lr.middleFunc)
 
   if (self.proxyUrl) {
-    console.log('proxy to ' + self.proxyUrl + ' when 404.')
     app.use(proxy(self.proxyUrl).middleFunc)
   }
 
   var server = http.createServer(app)
   server.listen(self.options.port, function() {
-    console.log('light-server is serving "' + self.serveDir +
-      '" as http://localhost:' + self.options.port + '\n')
+    console.log('light-server is serving directory "' + self.serveDir +
+      '" as http://localhost:' + self.options.port)
+    if (self.proxyUrl) {
+      console.log('  when static file not found, proxy to ' + self.proxyUrl)
+    }
+    console.log()
     self.lr.startWS(server) // websocket shares same port with http
     self.watch()
   })
@@ -65,42 +67,56 @@ LightServer.prototype.start = function() {
 
 LightServer.prototype.watch = function() {
   var self = this
-  var watcher = Watcher(self.watchedFiles, self.options.interval)
-  watcher.on('change', function(f) {
-    if (self.executing) { return }
+  self.watchExpressions.forEach(function (we) {
+    var tokens = we.trim().split(/\s*#\s*/)
+    var filesToWatch = tokens[0].trim().split(/\s*,\s*/)
+    var commandToRun = tokens[1]
+    var reloadOption = tokens[2]
+    if (reloadOption !== 'reloadcss') {
+      reloadOption = 'reload' // default value
+    }
+    self.processWatchExp(filesToWatch, commandToRun, reloadOption)
+  })
+}
 
-    self.executing = true
+LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, reloadOption) {
+  var self = this
+  var watcher = Watcher(filesToWatch, self.options.interval)
+  watcher.on('change', function(f) {
+    if (watcher.executing) { return }
+
+    watcher.executing = true
     console.log('* file: ' + f + ' changed')
-    if (!self.command) {
+    if (!commandToRun) {
       if (self.lr) {
-        console.log('## trigger reload')
-        self.lr.triggerReload(self.options.delay)
+        self.lr.trigger(reloadOption, self.options.delay)
       }
-      self.executing = false
+      watcher.executing = false
       return
     }
 
-    console.log('## executing command: ' + self.command)
-    p = spawn(self.shell, [self.firstParam, self.command], { stdio: 'inherit' })
+    console.log('## executing command: ' + commandToRun)
+    p = spawn(self.shell, [self.firstParam, commandToRun], { stdio: 'inherit' })
     p.on('close', function (code) {
       if (code !== 0) {
         console.log('## ERROR: command exited with code ' + code)
       } else {
         console.log('## command succeeded')
         if (self.lr) {
-          console.log('## trigger reload')
-          self.lr.triggerReload(self.options.delay)
+          self.lr.trigger(reloadOption, self.options.delay)
         }
       }
-      self.executing = false
+      watcher.executing = false
     })
   })
 
-  if (self.watchedFiles.length) {
-    console.log('light-server is watching these files: ' + self.watchedFiles.join(', '))
-    if (self.command) {
-      console.log('  and will run this command before live-reload: ' + self.command)
+  if (filesToWatch.length) {
+    console.log('light-server is watching these files: ' + filesToWatch.join(', '))
+    console.log('  when file changes,')
+    if (commandToRun) {
+      console.log('  this command will be executed:      ' + commandToRun)
     }
+    console.log('  this event will be sent to browser: ' + reloadOption + '\n')
   }
 }
 

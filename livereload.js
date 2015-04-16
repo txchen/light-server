@@ -47,6 +47,7 @@ var clientJsContent = [
 
 var emitter = new EventEmitter
   , wss
+  , wsArray = []
 
 function livereload() {
   if (!(this instanceof livereload)) return new livereload()
@@ -85,15 +86,28 @@ livereload.prototype.startWS = function(server) {
   wss = new WS({server: server})
 
   wss.on('connection', function (ws) {
-    emitter.once('reload', function () {
-      console.log("send reload event via websocket")
-      ws.send(JSON.stringify({r: Date.now().toString()}), function (e) {
+    wsArray.push(ws)
+    ws.on('close', function () {
+      var index = wsArray.indexOf(ws)
+      if (index > -1) {
+        wsArray.splice(index, 1);
+      }
+    })
+  })
+
+  emitter.on('reload', function () {
+    console.log("## send reload event via websocket to browswer")
+    wsArray.forEach(function (w) {
+      w.send(JSON.stringify({r: Date.now().toString()}), function (e) {
         if (e) { console.log("websocket send error: " + e) }
       })
     })
-    emitter.on('reloadcss', function () {
-      console.log("send reloadcss event via websocket")
-      ws.send(JSON.stringify({rcss: Date.now().toString()}), function (e) {
+  })
+
+  emitter.on('reloadcss', function () {
+    console.log("## send reloadcss event via websocket to browswer")
+    wsArray.forEach(function (w) {
+      w.send(JSON.stringify({rcss: Date.now().toString()}), function (e) {
         if (e) { console.log("websocket send error: " + e) }
       })
     })
@@ -116,6 +130,14 @@ livereload.prototype.triggerCSSReload = function(delay) {
   setTimeout(function() {
     emitter.emit('reloadcss')
   }, delay)
+}
+
+livereload.prototype.trigger = function(action, delay) {
+  if (action === 'reloadcss') {
+    this.triggerCSSReload(delay)
+  } else {
+    this.triggerReload(delay)
+  }
 }
 
 module.exports = livereload

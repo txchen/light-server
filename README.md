@@ -19,8 +19,10 @@ Then I wrote light-server, with the following features:
 * Watch files, support multiple glob expressions
 * Trigger custom command if watched files change
 * Trigger browser reload if watched files change
+* Trigger css reload without refreshing page
 * Auto inject client reload javascript in html, no need to manually add
 * Live reload websocket server uses the same port as http server
+* Proxy to another http server
 
 And now my package.json is simpler and cleaner than before :)
 
@@ -55,6 +57,16 @@ Examples:
   $ light-server -s . -p 7000
   $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"
   $ light-server -s . -x http://localhost:8000
+
+Watch expresion syntax: "files[,files] # [command to run] # [reload action]"
+  3 parts delimited by #
+  1st part: files to watch, support glob format, delimited by ","
+  2nd part: (optional) command to run, before reload
+  3rd part: (optional) reload action, default is "reload", also support "reloadcss"
+  Examples:
+    "**/*.js, index.html # npm run build # reload"
+    "*.css # # reloadcss"
+    "** # make"
 ```
 
 It is quite simple, specify the folder to serve as static http, specify the files to watch, specify the command to run when watched files change, and light-server will do the job.
@@ -69,7 +81,9 @@ You don't need to use all the features, and that's totally ok:
 
 ## Manual trigger live-reload
 
-Get or POST `http://localhost:PORT/__lightserver__/trigger`, light-server will send reload command to the browser.
+Get or POST `http://localhost:PORT/__lightserver__/trigger`, light-server will send reload event to the browser.
+
+Get or POST `http://localhost:PORT/__lightserver__/triggercss`, Light-server will send reloadcss event to the browser.
 
 It means that it's possible to integrate other tools with light-server.
 
@@ -96,7 +110,7 @@ Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen
 {
   "devDependencies": {
     "browserify": "^8.1.3",
-    "light-server": "^0.1.2",
+    "light-server": "^1.0.0",
     "minifyify": "^6.2.0",
     "riotify": "^0.0.9"
   },
@@ -104,7 +118,7 @@ Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify -t [riotify --ext html] -d src/index.js -p [minifyify --compressPath . --map index.js.map --output build/index.js.map] -o build/index.js",
     "build:css": "cp src/main.css build/main.css",
-    "dev": "light-server -s . -p 9090 -w 'src/**' -c 'npm run build'"
+    "dev": "light-server -s . -w 'src/** # npm run build' -p 9090"
   },
   "dependencies": {
     "riot": "^2.0.11"
@@ -121,6 +135,10 @@ During development, we can use `npm run dev`, which will use light-server to ser
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
 ## Changelog
+
+**2015-04-15** `1.0.0`
+New feature: watch and reload css without refreshing page
+Breaking change: change CLI interface to support reloadcss
 
 **2015-04-12** `0.1.4`
 New feature: proxy
