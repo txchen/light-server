@@ -56,10 +56,11 @@ Options:
 Examples:
 
   $ light-server -s . -p 7000
-  $ light-server -s . -w "*.js" -w "src/**" -c "npm run build && echo wao!"
+  $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
+  $ light-server -s static -w "**/*.css # # reloadcss"
 
-Watch expresion syntax: "files[,files] # [command to run] # [reload action]"
+Watch expression syntax: "files[,files] # [command to run] # [reload action]"
   3 parts delimited by #
   1st part: files to watch, support glob format, delimited by ","
   2nd part: (optional) command to run, before reload
