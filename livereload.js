@@ -96,7 +96,7 @@ livereload.prototype.startWS = function(server) {
   })
 
   emitter.on('reload', function () {
-    console.log("## send reload event via websocket to browswer")
+    console.log("## send reload event via websocket to browser")
     wsArray.forEach(function (w) {
       w.send(JSON.stringify({r: Date.now().toString()}), function (e) {
         if (e) { console.log("websocket send error: " + e) }
@@ -105,7 +105,7 @@ livereload.prototype.startWS = function(server) {
   })
 
   emitter.on('reloadcss', function () {
-    console.log("## send reloadcss event via websocket to browswer")
+    console.log("## send reloadcss event via websocket to browser")
     wsArray.forEach(function (w) {
       w.send(JSON.stringify({rcss: Date.now().toString()}), function (e) {
         if (e) { console.log("websocket send error: " + e) }
