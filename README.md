@@ -138,6 +138,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-05-30** `1.0.3`
+Fix typo
+
 **2015-04-16** `1.0.1`
 Print command execution duration
 
