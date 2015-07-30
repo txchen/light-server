@@ -8,8 +8,8 @@ function Proxy(url) {
   _this.proxy = httpProxy.createProxyServer({})
 }
 
-proxy.prototype.middleFunc = function livereload(req, res, next) {
+Proxy.prototype.middleFunc = function livereload(req, res, next) {
   _this.proxy.web(req, res, { target: _this.proxyUrl })
 }
 
-module.exports = proxy
+module.exports = Proxy

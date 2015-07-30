@@ -82,7 +82,7 @@ Livereload.prototype.middleFunc = function livereload(req, res, next) {
   next()
 }
 
-livereload.prototype.startWS = function(server) {
+Livereload.prototype.startWS = function(server) {
   wss = new WS({server: server})
 
   wss.on('connection', function(ws) {
@@ -114,7 +114,7 @@ livereload.prototype.startWS = function(server) {
   })
 }
 
-livereload.prototype.triggerReload = function(delay) {
+Livereload.prototype.triggerReload = function(delay) {
   if (delay) {
     console.log('delay reload for ' + delay + ' ms')
   }
@@ -124,7 +124,7 @@ livereload.prototype.triggerReload = function(delay) {
   }, delay)
 }
 
-livereload.prototype.triggerCSSReload = function(delay) {
+Livereload.prototype.triggerCSSReload = function(delay) {
   if (delay) {
     console.log('delay reloadcss for ' + delay + ' ms')
   }
@@ -134,7 +134,7 @@ livereload.prototype.triggerCSSReload = function(delay) {
   }, delay)
 }
 
-livereload.prototype.trigger = function(action, delay) {
+Livereload.prototype.trigger = function(action, delay) {
   if (action === 'reloadcss') {
     this.triggerCSSReload(delay)
   } else {
@@ -142,4 +142,4 @@ livereload.prototype.trigger = function(action, delay) {
   }
 }
 
-module.exports = livereload
+module.exports = Livereload
