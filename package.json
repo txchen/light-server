@@ -1,6 +1,6 @@
 {
   "name": "light-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "an http server that can watch files, trigger commands and livereload",
   "main": "index.js",
   "repository": {
@@ -16,6 +16,9 @@
     "execute",
     "dev"
   ],
+  "scripts": {
+    "jscs": "jscs *.js bin/*"
+  },
   "bin": {
     "light-server": "bin/light-server"
   },
@@ -35,5 +38,8 @@
   "bugs": {
     "url": "https://github.com/txchen/light-server/issues"
   },
-  "homepage": "https://github.com/txchen/light-server"
+  "homepage": "https://github.com/txchen/light-server",
+  "devDependencies": {
+    "jscs": "^2.0.0"
+  }
 }

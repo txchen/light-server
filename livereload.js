@@ -1,11 +1,11 @@
 var parseUrl = require('parseurl')
-  , inherits = require('util').inherits
-  , WS = require('ws').Server
-  , EventEmitter = require('events').EventEmitter
-  , prefix = '/__lightserver__'
-  , clientJsPath = prefix + '/reload-client.js'
-  , triggerPath = prefix + '/trigger'
-  , triggerCSSPath = prefix + '/triggercss'
+var inherits = require('util').inherits
+var WS = require('ws').Server
+var EventEmitter = require('events').EventEmitter
+var prefix = '/__lightserver__'
+var clientJsPath = prefix + '/reload-client.js'
+var triggerPath = prefix + '/trigger'
+var triggerCSSPath = prefix + '/triggercss'
 
 var clientJsContent = [
 'var ws',
@@ -42,18 +42,18 @@ var clientJsContent = [
 '  } else {',
 '    socket()',
 '  }',
-'}, 3000)'
+'}, 3000)',
 ].join('\n')
 
 var emitter = new EventEmitter
-  , wss
-  , wsArray = []
+var wss
+var wsArray = []
 
-function livereload() {
-  if (!(this instanceof livereload)) return new livereload()
+function Livereload() {
+  if (!(this instanceof Livereload)) return new Livereload()
 }
 
-livereload.prototype.middleFunc = function livereload(req, res, next) {
+Livereload.prototype.middleFunc = function livereload(req, res, next) {
   var pathname = parseUrl(req).pathname
   if (parseUrl(req).pathname.indexOf(prefix) == -1) {
     next()
@@ -85,9 +85,9 @@ livereload.prototype.middleFunc = function livereload(req, res, next) {
 livereload.prototype.startWS = function(server) {
   wss = new WS({server: server})
 
-  wss.on('connection', function (ws) {
+  wss.on('connection', function(ws) {
     wsArray.push(ws)
-    ws.on('close', function () {
+    ws.on('close', function() {
       var index = wsArray.indexOf(ws)
       if (index > -1) {
         wsArray.splice(index, 1);
@@ -95,20 +95,20 @@ livereload.prototype.startWS = function(server) {
     })
   })
 
-  emitter.on('reload', function () {
-    console.log("## send reload event via websocket to browser")
-    wsArray.forEach(function (w) {
-      w.send(JSON.stringify({r: Date.now().toString()}), function (e) {
-        if (e) { console.log("websocket send error: " + e) }
+  emitter.on('reload', function() {
+    console.log('## send reload event via websocket to browser')
+    wsArray.forEach(function(w) {
+      w.send(JSON.stringify({r: Date.now().toString()}), function(e) {
+        if (e) { console.log('websocket send error: ' + e) }
       })
     })
   })
 
-  emitter.on('reloadcss', function () {
-    console.log("## send reloadcss event via websocket to browser")
-    wsArray.forEach(function (w) {
-      w.send(JSON.stringify({rcss: Date.now().toString()}), function (e) {
-        if (e) { console.log("websocket send error: " + e) }
+  emitter.on('reloadcss', function() {
+    console.log('## send reloadcss event via websocket to browser')
+    wsArray.forEach(function(w) {
+      w.send(JSON.stringify({rcss: Date.now().toString()}), function(e) {
+        if (e) { console.log('websocket send error: ' + e) }
       })
     })
   })
@@ -118,6 +118,7 @@ livereload.prototype.triggerReload = function(delay) {
   if (delay) {
     console.log('delay reload for ' + delay + ' ms')
   }
+
   setTimeout(function() {
     emitter.emit('reload')
   }, delay)
@@ -127,6 +128,7 @@ livereload.prototype.triggerCSSReload = function(delay) {
   if (delay) {
     console.log('delay reloadcss for ' + delay + ' ms')
   }
+
   setTimeout(function() {
     emitter.emit('reloadcss')
   }, delay)

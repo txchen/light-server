@@ -7,14 +7,14 @@
  */
 
 var connect = require('connect')
-  , serveStatic = require('serve-static')
-  , http = require('http')
-  , morgan = require('morgan')
-  , Watcher = require('./watcher')
-  , LR = require('./livereload')
-  , spawn = require('child_process').spawn
-  , os = require('os').type()
-  , proxy = require('./proxy')
+var serveStatic = require('serve-static')
+var http = require('http')
+var morgan = require('morgan')
+var Watcher = require('./watcher')
+var LR = require('./livereload')
+var spawn = require('child_process').spawn
+var os = require('os').type()
+var proxy = require('./proxy')
 
 function LightServer(serveDir, watchExpressions, proxyUrl, options) {
   if (!(this instanceof LightServer)) return new LightServer(serveDir, watchExpressions, proxyUrl, options)
@@ -32,42 +32,43 @@ function LightServer(serveDir, watchExpressions, proxyUrl, options) {
 }
 
 LightServer.prototype.start = function() {
-  var self = this
-  if (!self.serveDir) {
-    self.watch()
+  var _this = this
+  if (!_this.serveDir) {
+    _this.watch()
     return
   }
 
   var app = connect()
-  self.lr = LR()
+  _this.lr = LR()
 
   app.use(morgan('dev'))
      .use(require('connect-inject')({
-        snippet: '<script src="/__lightserver__/reload-client.js"></script>'
+        snippet: '<script src="/__lightserver__/reload-client.js"></script>',
       }))
-     .use(serveStatic(self.serveDir))
-     .use(self.lr.middleFunc)
+     .use(serveStatic(_this.serveDir))
+     .use(_this.lr.middleFunc)
 
-  if (self.proxyUrl) {
-    app.use(proxy(self.proxyUrl).middleFunc)
+  if (_this.proxyUrl) {
+    app.use(proxy(_this.proxyUrl).middleFunc)
   }
 
   var server = http.createServer(app)
-  server.listen(self.options.port, function() {
-    console.log('light-server is serving directory "' + self.serveDir +
-      '" as http://localhost:' + self.options.port)
-    if (self.proxyUrl) {
-      console.log('  when static file not found, proxy to ' + self.proxyUrl)
+  server.listen(_this.options.port, function() {
+    console.log('light-server is serving directory "' + _this.serveDir +
+      '" as http://localhost:' + _this.options.port)
+    if (_this.proxyUrl) {
+      console.log('  when static file not found, proxy to ' + _this.proxyUrl)
     }
+
     console.log()
-    self.lr.startWS(server) // websocket shares same port with http
-    self.watch()
+    _this.lr.startWS(server) // websocket shares same port with http
+    _this.watch()
   })
 }
 
 LightServer.prototype.watch = function() {
-  var self = this
-  self.watchExpressions.forEach(function (we) {
+  var _this = this
+  _this.watchExpressions.forEach(function(we) {
     var tokens = we.trim().split(/\s*#\s*/)
     var filesToWatch = tokens[0].trim().split(/\s*,\s*/)
     var commandToRun = tokens[1]
@@ -75,38 +76,41 @@ LightServer.prototype.watch = function() {
     if (reloadOption !== 'reloadcss') {
       reloadOption = 'reload' // default value
     }
-    self.processWatchExp(filesToWatch, commandToRun, reloadOption)
+
+    _this.processWatchExp(filesToWatch, commandToRun, reloadOption)
   })
 }
 
 LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, reloadOption) {
-  var self = this
-  var watcher = Watcher(filesToWatch, self.options.interval)
+  var _this = this
+  var watcher = Watcher(filesToWatch, _this.options.interval)
   watcher.on('change', function(f) {
     if (watcher.executing) { return }
 
     watcher.executing = true
     console.log('* file: ' + f + ' changed')
     if (!commandToRun) {
-      if (self.lr) {
-        self.lr.trigger(reloadOption, self.options.delay)
+      if (_this.lr) {
+        _this.lr.trigger(reloadOption, _this.options.delay)
       }
+
       watcher.executing = false
       return
     }
 
     console.log('## executing command: ' + commandToRun)
-    var start = new Date().getTime();
-    p = spawn(self.shell, [self.firstParam, commandToRun], { stdio: 'inherit' })
-    p.on('close', function (code) {
+    var start = new Date().getTime()
+    p = spawn(_this.shell, [_this.firstParam, commandToRun], { stdio: 'inherit' })
+    p.on('close', function(code) {
       if (code !== 0) {
         console.log('## ERROR: command exited with code ' + code)
       } else {
         console.log('## command succeeded in ' + (new Date().getTime() - start) + 'ms')
-        if (self.lr) {
-          self.lr.trigger(reloadOption, self.options.delay)
+        if (_this.lr) {
+          _this.lr.trigger(reloadOption, _this.options.delay)
         }
       }
+
       watcher.executing = false
     })
   })
@@ -117,6 +121,7 @@ LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, rel
     if (commandToRun) {
       console.log('  this command will be executed:      ' + commandToRun)
     }
+
     console.log('  this event will be sent to browser: ' + reloadOption + '\n')
   }
 }

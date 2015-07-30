@@ -1,15 +1,15 @@
 var httpProxy = require('http-proxy')
 
-var self = this
+var _this = this
 
-function proxy(url) {
-  if (!(this instanceof proxy)) return new proxy(url)
-  self.proxyUrl = url
-  self.proxy = httpProxy.createProxyServer({})
+function Proxy(url) {
+  if (!(this instanceof Proxy)) return new Proxy(url)
+  _this.proxyUrl = url
+  _this.proxy = httpProxy.createProxyServer({})
 }
 
 proxy.prototype.middleFunc = function livereload(req, res, next) {
-  self.proxy.web(req, res, { target: self.proxyUrl })
+  _this.proxy.web(req, res, { target: _this.proxyUrl })
 }
 
 module.exports = proxy

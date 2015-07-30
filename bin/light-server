@@ -25,7 +25,7 @@ function main(argv) {
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
-    .on('--help', function(){
+    .on('--help', function() {
        console.log('  Examples:')
        console.log('')
        console.log('    $ light-server -s . -p 7000')
@@ -48,12 +48,13 @@ function main(argv) {
   if (argv.length == 0) {
     process.argv.push('--help')
   }
+
   program.parse(process.argv)
 
   options = {}
   options.port = program.port || 4000
   options.interval = program.interval || 500
-  options.delay =program.delay || 0
+  options.delay = program.delay || 0
 
   if (!program.serve && !program.watchexp.length) {
     console.log('Please use http-server and/or watch, but not nothing.')
