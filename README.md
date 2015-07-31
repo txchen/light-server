@@ -47,6 +47,7 @@ Options:
   -V, --version                   output the version number
   -s, --serve <directory>         serve the directory as static http
   -p, --port <port>               http server port, default 4000
+  -b, --bind <bind>               bind to a host
   -w, --watch <files to watch>    files to watch, in glob format, repeatable
   -c, --cmd <command>             if watched files changed, trigger the command
   -i, --interval <watch inteval>  interval in ms of watching, default 500
@@ -137,6 +138,9 @@ During development, we can use `npm run dev`, which will use light-server to ser
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
 ## Changelog
+
+**2015-07-31** `1.0.6`
+Add bind option, by @davidmarkclements
 
 **2015-05-30** `1.0.3`
 Fix typo
