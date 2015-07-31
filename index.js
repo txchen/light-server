@@ -55,7 +55,7 @@ LightServer.prototype.start = function() {
   var server = http.createServer(app)
   server.listen(_this.options.port, _this.options.host, function() {
     console.log('light-server is serving directory "' + _this.serveDir +
-      '" as http://localhost:' + _this.options.port)
+      '" as http://' + _this.options.host + ':' + _this.options.port)
     if (_this.proxyUrl) {
       console.log('  when static file not found, proxy to ' + _this.proxyUrl)
     }
