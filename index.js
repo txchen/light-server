@@ -53,7 +53,9 @@ LightServer.prototype.start = function() {
   }
 
   var server = http.createServer(app)
-  server.listen(_this.options.port, function() {
+  var args = [_this.options.port]
+  args.push(_this.options.host)
+  args.push(function() {
     console.log('light-server is serving directory "' + _this.serveDir +
       '" as http://localhost:' + _this.options.port)
     if (_this.proxyUrl) {
@@ -64,6 +66,7 @@ LightServer.prototype.start = function() {
     _this.lr.startWS(server) // websocket shares same port with http
     _this.watch()
   })
+  server.listen.apply(server, args)
 }
 
 LightServer.prototype.watch = function() {
