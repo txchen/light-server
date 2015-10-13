@@ -139,6 +139,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-10-12** `1.0.7`
+Upgrade npm dependencies
+
 **2015-07-31** `1.0.6`
 Add bind option, by @davidmarkclements
 

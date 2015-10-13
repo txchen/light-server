@@ -1,6 +1,6 @@
 {
   "name": "light-server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "an http server that can watch files, trigger commands and livereload",
   "main": "index.js",
   "repository": {
@@ -23,15 +23,15 @@
     "light-server": "bin/light-server"
   },
   "dependencies": {
-    "commander": "^2.6.0",
-    "connect": "~3.3.4",
-    "connect-inject": "^0.3.2",
-    "glob": "^4.4.1",
-    "http-proxy": "^1.10.1",
-    "morgan": "~1.5.1",
+    "commander": "^2.8.1",
+    "connect": "~3.4.0",
+    "connect-inject": "^0.4.0",
+    "glob": "^5.0.15",
+    "http-proxy": "^1.11.2",
+    "morgan": "~1.6.1",
     "parseurl": "^1.3.0",
-    "serve-static": "~1.9.1",
-    "ws": "^0.7.1"
+    "serve-static": "~1.10.0",
+    "ws": "^0.8.0"
   },
   "author": "Tianxiang Chen",
   "license": "MIT",
@@ -40,6 +40,6 @@
   },
   "homepage": "https://github.com/txchen/light-server",
   "devDependencies": {
-    "jscs": "^2.0.0"
+    "jscs": "^2.3.0"
   }
 }
