@@ -58,15 +58,15 @@ function main(argv) {
   options.delay = program.delay || 0
   options.host = program.bind || 'localhost'
 
-  if (!program.serve && !program.watchexp.length) {
-    console.log('Please use http-server and/or watch, but not nothing.')
+  if (!program.serve && !program.watchexp.length && !program.proxy) {
+    console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
   }
 
-  if (!program.serve && program.proxy) {
-    console.log('Not serving as http server, cannot set proxy.')
-    process.exit(1)
-  }
+  // if (!program.serve && program.proxy) {
+  //   console.log('Not serving as http server, cannot set proxy.')
+  //   process.exit(1)
+  // }
 
   ls = LightServer(program.serve, program.watchexp, program.proxy, options)
   ls.start()

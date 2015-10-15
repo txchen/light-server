@@ -55,7 +55,7 @@ function Livereload() {
 
 Livereload.prototype.middleFunc = function livereload(req, res, next) {
   var pathname = parseUrl(req).pathname
-  if (parseUrl(req).pathname.indexOf(prefix) == -1) {
+  if (pathname.indexOf(prefix) == -1) {
     next()
     return
   }

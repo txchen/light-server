@@ -33,7 +33,7 @@ function LightServer(serveDir, watchExpressions, proxyUrl, options) {
 
 LightServer.prototype.start = function() {
   var _this = this
-  if (!_this.serveDir) {
+  if (!_this.serveDir && !_this.proxyUrl) {
     _this.watch()
     return
   }
@@ -45,8 +45,11 @@ LightServer.prototype.start = function() {
      .use(require('connect-inject')({
         snippet: '<script src="/__lightserver__/reload-client.js"></script>',
       }))
-     .use(serveStatic(_this.serveDir))
      .use(_this.lr.middleFunc)
+
+  if (_this.serverDir) {
+    app.use(serveStatic(_this.serveDir))
+  }
 
   if (_this.proxyUrl) {
     app.use(proxy(_this.proxyUrl).middleFunc)
@@ -54,8 +57,10 @@ LightServer.prototype.start = function() {
 
   var server = http.createServer(app)
   server.listen(_this.options.port, _this.options.host, function() {
-    console.log('light-server is serving directory "' + _this.serveDir +
-      '" as http://' + _this.options.host + ':' + _this.options.port)
+    console.log('light-server is listening at http://'  + _this.options.host + ':' + _this.options.port)
+    if (_this.serveDir) {
+      console.log('  serving static dir: ' + _this.serveDir)
+    }
     if (_this.proxyUrl) {
       console.log('  when static file not found, proxy to ' + _this.proxyUrl)
     }
