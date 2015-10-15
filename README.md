@@ -140,6 +140,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-10-15** `1.1.0`
+Now we can use proxy without static serving. Also improve the html injecting logic
+
 **2015-10-12** `1.0.7`
 Upgrade npm dependencies
 
