@@ -32,6 +32,7 @@ function main(argv) {
        console.log('    $ light-server -s . -p 7000')
        console.log('    $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"')
        console.log('    $ light-server -s . -x http://localhost:8000')
+       console.log('    $ light-server -x http://localhost:9999 -w "public/**"')
        console.log('    $ light-server -s static -w "**/*.css # # reloadcss"')
        console.log('')
        console.log('  Watch expression syntax: "files[,files] # [command to run] # [reload action]"')
@@ -62,11 +63,6 @@ function main(argv) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
   }
-
-  // if (!program.serve && program.proxy) {
-  //   console.log('Not serving as http server, cannot set proxy.')
-  //   process.exit(1)
-  // }
 
   ls = LightServer(program.serve, program.watchexp, program.proxy, options)
   ls.start()

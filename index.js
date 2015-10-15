@@ -10,6 +10,7 @@ var connect = require('connect')
 var serveStatic = require('serve-static')
 var http = require('http')
 var morgan = require('morgan')
+var injector = require('connect-injector')
 var Watcher = require('./watcher')
 var LR = require('./livereload')
 var spawn = require('child_process').spawn
@@ -42,12 +43,17 @@ LightServer.prototype.start = function() {
   _this.lr = LR()
 
   app.use(morgan('dev'))
-     .use(require('connect-inject')({
-        snippet: '<script src="/__lightserver__/reload-client.js"></script>',
-      }))
-     .use(_this.lr.middleFunc)
+  app.use(_this.lr.middleFunc)
+  app.use(injector(
+            function(req, res) {
+              return res.getHeader('content-type') && res.getHeader('content-type').indexOf('text/html') !== -1
+            },
+            function(data, req, res, callback) {
+              callback(null, data.toString().replace('</body>', '<script src="/__lightserver__/reload-client.js"></script></body>'))
+            })
+  )
 
-  if (_this.serverDir) {
+  if (_this.serveDir) {
     app.use(serveStatic(_this.serveDir))
   }
 

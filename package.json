@@ -25,7 +25,7 @@
   "dependencies": {
     "commander": "^2.8.1",
     "connect": "~3.4.0",
-    "connect-inject": "^0.4.0",
+    "connect-injector": "^0.4.2",
     "glob": "^5.0.15",
     "http-proxy": "^1.11.2",
     "morgan": "~1.6.1",

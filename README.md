@@ -59,6 +59,7 @@ Examples:
   $ light-server -s . -p 7000
   $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
+  $ light-server -x http://localhost:9999 -w "public/**"
   $ light-server -s static -w "**/*.css # # reloadcss"
 
 Watch expression syntax: "files[,files] # [command to run] # [reload action]"
