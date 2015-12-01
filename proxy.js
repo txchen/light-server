@@ -5,7 +5,7 @@ var _this = this
 function Proxy(url) {
   if (!(this instanceof Proxy)) return new Proxy(url)
   _this.proxyUrl = url
-  _this.proxy = httpProxy.createProxyServer({})
+  _this.proxy = httpProxy.createProxyServer({ changeOrigin: true })
 }
 
 Proxy.prototype.middleFunc = function livereload(req, res, next) {

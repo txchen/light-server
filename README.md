@@ -140,6 +140,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-12-01** `1.1.1`
+Set changeOrigin to true by default when creating proxy. Thanks @joelcollinsdc for reporting this issue.
+
 **2015-10-15** `1.1.0`
 Now we can use proxy without static serving. Also improve the html injecting logic
 
