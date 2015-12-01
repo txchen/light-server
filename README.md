@@ -47,7 +47,7 @@ Options:
   -V, --version                   output the version number
   -s, --serve <directory>         serve the directory as static http
   -p, --port <port>               http server port, default 4000
-  -b, --bind <bind>               bind to a host
+  -b, --bind <bind>               bind to a specific host, default 127.0.0.1
   -w, --watch <files to watch>    files to watch, in glob format, repeatable
   -c, --cmd <command>             if watched files changed, trigger the command
   -i, --interval <watch inteval>  interval in ms of watching, default 500
@@ -59,6 +59,7 @@ Examples:
   $ light-server -s . -p 7000
   $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
+  $ light-server -s . -b 10.0.0.1
   $ light-server -x http://localhost:9999 -w "public/**"
   $ light-server -s static -w "**/*.css # # reloadcss"
 
