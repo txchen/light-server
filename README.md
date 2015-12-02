@@ -141,6 +141,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2015-12-01** `1.1.2`
+Improve help message.
+
 **2015-12-01** `1.1.1`
 Set changeOrigin to true by default when creating proxy. Thanks @joelcollinsdc for reporting this issue.
 
