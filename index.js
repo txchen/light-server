@@ -48,6 +48,7 @@ LightServer.prototype.start = function() {
             function(req, res) {
               return res.getHeader('content-type') && res.getHeader('content-type').indexOf('text/html') !== -1
             },
+
             function(data, req, res, callback) {
               callback(null, data.toString().replace('</body>', '<script src="/__lightserver__/reload-client.js"></script></body>'))
             })
@@ -67,6 +68,7 @@ LightServer.prototype.start = function() {
     if (_this.serveDir) {
       console.log('  serving static dir: ' + _this.serveDir)
     }
+
     if (_this.proxyUrl) {
       console.log('  when static file not found, proxy to ' + _this.proxyUrl)
     }
