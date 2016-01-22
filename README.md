@@ -142,6 +142,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2016-01-22** `1.1.3`
+Add quite mode, thanks @eliot-akira for the PR.
+
 **2015-12-01** `1.1.2`
 Improve help message.
 
