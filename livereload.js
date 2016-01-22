@@ -49,8 +49,9 @@ var emitter = new EventEmitter
 var wss
 var wsArray = []
 
-function Livereload() {
-  if (!(this instanceof Livereload)) return new Livereload()
+function Livereload(options) {
+  if (!(this instanceof Livereload)) return new Livereload(options)
+  this.options = options
 }
 
 Livereload.prototype.middleFunc = function livereload(req, res, next) {
@@ -83,6 +84,7 @@ Livereload.prototype.middleFunc = function livereload(req, res, next) {
 }
 
 Livereload.prototype.startWS = function(server) {
+  var _this = this
   wss = new WS({server: server})
 
   wss.on('connection', function(ws) {
@@ -96,7 +98,7 @@ Livereload.prototype.startWS = function(server) {
   })
 
   emitter.on('reload', function() {
-    console.log('## send reload event via websocket to browser')
+    _this.options.log && console.log('## send reload event via websocket to browser')
     wsArray.forEach(function(w) {
       w.send(JSON.stringify({r: Date.now().toString()}), function(e) {
         if (e) { console.log('websocket send error: ' + e) }
@@ -105,7 +107,7 @@ Livereload.prototype.startWS = function(server) {
   })
 
   emitter.on('reloadcss', function() {
-    console.log('## send reloadcss event via websocket to browser')
+    _this.options.log && console.log('## send reloadcss event via websocket to browser')
     wsArray.forEach(function(w) {
       w.send(JSON.stringify({rcss: Date.now().toString()}), function(e) {
         if (e) { console.log('websocket send error: ' + e) }
@@ -116,7 +118,7 @@ Livereload.prototype.startWS = function(server) {
 
 Livereload.prototype.triggerReload = function(delay) {
   if (delay) {
-    console.log('delay reload for ' + delay + ' ms')
+    this.options.log && console.log('delay reload for ' + delay + ' ms')
   }
 
   setTimeout(function() {
@@ -126,7 +128,7 @@ Livereload.prototype.triggerReload = function(delay) {
 
 Livereload.prototype.triggerCSSReload = function(delay) {
   if (delay) {
-    console.log('delay reloadcss for ' + delay + ' ms')
+    this.options.log && console.log('delay reloadcss for ' + delay + ' ms')
   }
 
   setTimeout(function() {
