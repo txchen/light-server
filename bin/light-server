@@ -60,7 +60,7 @@ function main(argv) {
   options.interval = program.interval || 500
   options.delay = program.delay || 0
   options.host = program.bind || 'localhost'
-  options.log = ! program.quiet
+  options.log = !program.quiet
 
   if (!program.serve && !program.watchexp.length && !program.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
