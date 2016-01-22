@@ -24,7 +24,7 @@ Watcher.prototype.watch = function(file) {
       })
     })
   } else {
-    fs.watchFile(file, {interval: _this.interval}, function(curr) {
+    fs.watchFile(file, { interval: _this.interval }, function(curr) {
       if (curr.isFile()) {
         _this.emit('change', file)
       }
