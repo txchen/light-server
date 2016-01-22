@@ -26,6 +26,7 @@ function main(argv) {
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
+    .option('-q, --quiet', 'quiet mode with minimum log message')
     .on('--help', function() {
        console.log('  Examples:')
        console.log('')
@@ -59,6 +60,7 @@ function main(argv) {
   options.interval = program.interval || 500
   options.delay = program.delay || 0
   options.host = program.bind || 'localhost'
+  options.log = ! program.quiet
 
   if (!program.serve && !program.watchexp.length && !program.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
