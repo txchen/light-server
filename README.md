@@ -43,17 +43,16 @@ Usage: light-server [options]
 
 Options:
 
-  -h, --help                      output usage information
-  -V, --version                   output the version number
-  -s, --serve <directory>         serve the directory as static http
-  -p, --port <port>               http server port, default 4000
-  -b, --bind <bind>               bind to a specific host, default 127.0.0.1
-  -w, --watch <files to watch>    files to watch, in glob format, repeatable
-  -c, --cmd <command>             if watched files changed, trigger the command
-  -i, --interval <watch inteval>  interval in ms of watching, default 500
-  -d, --delay <livereolad delay>  delay in ms before triggering live reload, default 0
-  -x, --proxy <upstreamurl>       when file not found, proxy the request to another server
-  -q, --quiet                     quiet mode with minimum log message
+  -h, --help                           output usage information
+  -V, --version                        output the version number
+  -s, --serve <directory>              serve the directory as static http
+  -p, --port <port>                    http server port, default 4000
+  -b, --bind <bind>                    bind to a specific host, default 127.0.0.1
+  -w, --watchexp <watch expression>    watch expression, repeatable
+  -i, --interval <watch inteval>       interval in ms of watching, default 500
+  -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
+  -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
+  -q, --quiet                          quiet mode with minimum log message
 
 Examples:
 
