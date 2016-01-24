@@ -10,6 +10,7 @@
 
 var LightServer = require('../index')
 var program = require('commander')
+var rc = require('rc')
 
 function main(argv) {
 
@@ -54,6 +55,12 @@ function main(argv) {
   }
 
   program.parse(process.argv)
+
+  // .light-serverrc has priority over command line args
+  rc('light-server', program)
+
+  // or..command line args has higher priority
+  // program = Object.assign(rc('light-server', {}), program)
 
   options = {}
   options.port = program.port || 4000
