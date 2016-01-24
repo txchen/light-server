@@ -141,6 +141,9 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Changelog
 
+**2016-01-24** `1.1.4`
+Improve css reload, thanks @eliot-akira for the PR.
+
 **2016-01-22** `1.1.3`
 Add quite mode, thanks @eliot-akira for the PR.
 

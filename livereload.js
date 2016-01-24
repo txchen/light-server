@@ -27,7 +27,7 @@ var clientJsContent = [
 '  for (var i = 0; i < sheets.length; i++) {',
 '    var elem = sheets[i];',
 '    var rel = elem.rel;',
-'    if (elem.href && elem.href.substring(0,5) !== "data:" && (typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet")) {',
+'    if (elem.href && elem.href.substring(0, 5) !== "data:" && (typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet")) {',
 '      var url = elem.href.replace(/(&|\\?)_cacheOverride=\\d+/, "");',
 '      elem.href = url + (url.indexOf("?") >= 0 ? "&" : "?") + "_cacheOverride=" + (new Date().valueOf());',
 '    }',
