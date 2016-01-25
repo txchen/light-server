@@ -30,11 +30,11 @@ function LightServer(options) {
   }
 }
 
-LightServer.prototype.writeLog = function(logLine) {
+LightServer.prototype.writeLog = function (logLine) {
   !this.options.quite && console.log(logLine)
 }
 
-LightServer.prototype.start = function() {
+LightServer.prototype.start = function () {
   var _this = this
   if (!_this.options.serveDir && !_this.options.proxyUrl) {
     _this.watch()
@@ -49,11 +49,11 @@ LightServer.prototype.start = function() {
   !this.options.quite && app.use(morgan('dev'))
   app.use(_this.lr.middleFunc)
   app.use(injector(
-    function(req, res) {
+    function (req, res) {
       return res.getHeader('content-type') && res.getHeader('content-type').indexOf('text/html') !== -1
     },
 
-    function(data, req, res, callback) {
+    function (data, req, res, callback) {
       callback(null, data.toString().replace('</body>', '<script src="/__lightserver__/reload-client.js"></script></body>'))
     })
   )
@@ -67,7 +67,7 @@ LightServer.prototype.start = function() {
   }
 
   var server = http.createServer(app)
-  server.listen(_this.options.port, _this.options.host, function() {
+  server.listen(_this.options.port, _this.options.host, function () {
     console.log('light-server is listening at http://'  + _this.options.host + ':' + _this.options.port)
     if (_this.options.serveDir) {
       _this.writeLog('  serving static dir: ' + _this.options.serveDir)
@@ -80,7 +80,7 @@ LightServer.prototype.start = function() {
     _this.writeLog('')
     _this.lr.startWS(server) // websocket shares same port with http
     _this.watch()
-  }).on('error', function(err) {
+  }).on('error', function (err) {
     if (err.errno === 'EADDRINUSE') {
       console.log('## ERROR: port ' + _this.options.port + ' is already in use')
       process.exit(2)
@@ -90,9 +90,9 @@ LightServer.prototype.start = function() {
   })
 }
 
-LightServer.prototype.watch = function() {
+LightServer.prototype.watch = function () {
   var _this = this
-  _this.options.watchexps.forEach(function(we) {
+  _this.options.watchexps.forEach(function (we) {
     var tokens = we.trim().split(/\s*#\s*/)
     var filesToWatch = tokens[0].trim().split(/\s*,\s*/)
     var commandToRun = tokens[1]
@@ -105,10 +105,10 @@ LightServer.prototype.watch = function() {
   })
 }
 
-LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, reloadOption) {
+LightServer.prototype.processWatchExp = function (filesToWatch, commandToRun, reloadOption) {
   var _this = this
   var watcher = Watcher(filesToWatch, _this.options.interval)
-  watcher.on('change', function(f) {
+  watcher.on('change', function (f) {
     if (watcher.executing) { return }
 
     watcher.executing = true
@@ -125,7 +125,7 @@ LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, rel
     console.log('## executing command: ' + commandToRun)
     var start = new Date().getTime()
     var p = spawn(_this.shell, [_this.firstParam, commandToRun], { stdio: 'inherit' })
-    p.on('close', function(code) {
+    p.on('close', function (code) {
       if (code !== 0) {
         console.log('## ERROR: command ' + commandToRun + ' exited with code ' + code)
       } else {

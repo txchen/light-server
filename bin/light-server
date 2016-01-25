@@ -29,7 +29,7 @@ function main(argv) {
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .option('-q, --quiet', 'quiet mode with minimum log message')
-    .on('--help', function() {
+    .on('--help', function () {
        console.log('  Examples:')
        console.log('')
        console.log('    $ light-server -s . -p 7000')

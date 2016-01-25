@@ -56,7 +56,7 @@ function Livereload(options) {
   this.options = options
 }
 
-Livereload.prototype.writeLog = function(logLine) {
+Livereload.prototype.writeLog = function (logLine) {
   !this.options.quite && console.log(logLine)
 }
 
@@ -89,13 +89,13 @@ Livereload.prototype.middleFunc = function livereload(req, res, next) {
   next()
 }
 
-Livereload.prototype.startWS = function(server) {
+Livereload.prototype.startWS = function (server) {
   var _this = this
   wss = new WS({ server: server })
 
-  wss.on('connection', function(ws) {
+  wss.on('connection', function (ws) {
     wsArray.push(ws)
-    ws.on('close', function() {
+    ws.on('close', function () {
       var index = wsArray.indexOf(ws)
       if (index > -1) {
         wsArray.splice(index, 1);
@@ -103,46 +103,46 @@ Livereload.prototype.startWS = function(server) {
     })
   })
 
-  emitter.on('reload', function() {
+  emitter.on('reload', function () {
     _this.writeLog('## send reload event via websocket to browser')
-    wsArray.forEach(function(w) {
-      w.send(JSON.stringify({ r: Date.now().toString() }), function(e) {
+    wsArray.forEach(function (w) {
+      w.send(JSON.stringify({ r: Date.now().toString() }), function (e) {
         if (e) { console.log('websocket send error: ' + e) }
       })
     })
   })
 
-  emitter.on('reloadcss', function() {
+  emitter.on('reloadcss', function () {
     _this.writeLog('## send reloadcss event via websocket to browser')
-    wsArray.forEach(function(w) {
-      w.send(JSON.stringify({ rcss: Date.now().toString() }), function(e) {
+    wsArray.forEach(function (w) {
+      w.send(JSON.stringify({ rcss: Date.now().toString() }), function (e) {
         if (e) { console.log('websocket send error: ' + e) }
       })
     })
   })
 }
 
-Livereload.prototype.triggerReload = function(delay) {
+Livereload.prototype.triggerReload = function (delay) {
   if (delay) {
     this.writeLog('delay reload for ' + delay + ' ms')
   }
 
-  setTimeout(function() {
+  setTimeout(function () {
     emitter.emit('reload')
   }, delay)
 }
 
-Livereload.prototype.triggerCSSReload = function(delay) {
+Livereload.prototype.triggerCSSReload = function (delay) {
   if (delay) {
     this.writeLog('delay reloadcss for ' + delay + ' ms')
   }
 
-  setTimeout(function() {
+  setTimeout(function () {
     emitter.emit('reloadcss')
   }, delay)
 }
 
-Livereload.prototype.trigger = function(action, delay) {
+Livereload.prototype.trigger = function (action, delay) {
   if (action === 'reloadcss') {
     this.triggerCSSReload(delay)
   } else {
