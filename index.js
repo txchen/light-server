@@ -80,7 +80,13 @@ LightServer.prototype.start = function() {
     _this.writeLog('')
     _this.lr.startWS(server) // websocket shares same port with http
     _this.watch()
-  })
+  }).on('error', function(err) {
+    if (err.errno === 'EADDRINUSE') {
+      console.log('## ERROR: port '+_this.options.port+' is already in use')
+    } else {
+      console.log(err)
+    }
+  });
 }
 
 LightServer.prototype.watch = function() {
