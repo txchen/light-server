@@ -5,6 +5,7 @@
  *
  * Copyright (c) 2015 by Tianxiang Chen
  */
+'use strict'
 
 var connect = require('connect')
 var serveStatic = require('serve-static')
@@ -17,11 +18,8 @@ var spawn = require('child_process').spawn
 var os = require('os').type()
 var proxy = require('./proxy')
 
-function LightServer(serveDir, watchExpressions, proxyUrl, options) {
-  if (!(this instanceof LightServer)) return new LightServer(serveDir, watchExpressions, proxyUrl, options)
-  this.serveDir = serveDir
-  this.watchExpressions = watchExpressions
-  this.proxyUrl = proxyUrl
+function LightServer(options) {
+  if (!(this instanceof LightServer)) return new LightServer(options)
   this.options = options
   if (os === 'Windows_NT') {
     this.shell = 'cmd'
@@ -33,22 +31,22 @@ function LightServer(serveDir, watchExpressions, proxyUrl, options) {
 }
 
 LightServer.prototype.writeLog = function(logLine) {
-  this.options.log && console.log(logLine)
+  !this.options.quite && console.log(logLine)
 }
 
 LightServer.prototype.start = function() {
   var _this = this
-  if (!_this.serveDir && !_this.proxyUrl) {
+  if (!_this.options.serveDir && !_this.options.proxyUrl) {
     _this.watch()
     return
   }
 
   var app = connect()
   _this.lr = LR({
-    log: _this.options.log,
+    quite: _this.options.quite,
   })
 
-  this.options.log && app.use(morgan('dev'))
+  !this.options.quite && app.use(morgan('dev'))
   app.use(_this.lr.middleFunc)
   app.use(injector(
     function(req, res) {
@@ -60,23 +58,23 @@ LightServer.prototype.start = function() {
     })
   )
 
-  if (_this.serveDir) {
-    app.use(serveStatic(_this.serveDir))
+  if (_this.options.serveDir) {
+    app.use(serveStatic(_this.options.serveDir))
   }
 
-  if (_this.proxyUrl) {
-    app.use(proxy(_this.proxyUrl).middleFunc)
+  if (_this.options.proxyUrl) {
+    app.use(proxy(_this.options.proxyUrl).middleFunc)
   }
 
   var server = http.createServer(app)
   server.listen(_this.options.port, _this.options.host, function() {
     console.log('light-server is listening at http://'  + _this.options.host + ':' + _this.options.port)
-    if (_this.serveDir) {
-      _this.writeLog('  serving static dir: ' + _this.serveDir)
+    if (_this.options.serveDir) {
+      _this.writeLog('  serving static dir: ' + _this.options.serveDir)
     }
 
-    if (_this.proxyUrl) {
-      _this.writeLog('  when static file not found, proxy to ' + _this.proxyUrl)
+    if (_this.options.proxyUrl) {
+      _this.writeLog('  when static file not found, proxy to ' + _this.options.proxyUrl)
     }
 
     _this.writeLog('')
@@ -87,7 +85,7 @@ LightServer.prototype.start = function() {
 
 LightServer.prototype.watch = function() {
   var _this = this
-  _this.watchExpressions.forEach(function(we) {
+  _this.options.watchexps.forEach(function(we) {
     var tokens = we.trim().split(/\s*#\s*/)
     var filesToWatch = tokens[0].trim().split(/\s*,\s*/)
     var commandToRun = tokens[1]

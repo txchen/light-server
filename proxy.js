@@ -1,5 +1,6 @@
-var httpProxy = require('http-proxy')
+'use strict'
 
+var httpProxy = require('http-proxy')
 var _this = this
 
 function Proxy(url) {

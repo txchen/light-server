@@ -1,3 +1,5 @@
+'use strict'
+
 var parseUrl = require('parseurl')
 var inherits = require('util').inherits
 var WS = require('ws').Server
@@ -55,7 +57,7 @@ function Livereload(options) {
 }
 
 Livereload.prototype.writeLog = function(logLine) {
-  this.options.log && console.log(logLine)
+  !this.options.quite && console.log(logLine)
 }
 
 Livereload.prototype.middleFunc = function livereload(req, res, next) {

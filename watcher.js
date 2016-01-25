@@ -1,3 +1,5 @@
+'use strict'
+
 var fs = require('fs')
 var glob = require('glob')
 var inherits = require('util').inherits

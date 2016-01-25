@@ -7,6 +7,7 @@
  *
  * Copyright (c) 2015 by Tianxiang Chen
  */
+'use strict'
 
 var LightServer = require('../index')
 var program = require('commander')
@@ -19,6 +20,7 @@ function main(argv) {
   }
 
   program.version(require('../package').version)
+    .option('-c, --config <configfile>', 'read options from config file')
     .option('-s, --serve <directory>', 'serve the directory as static http')
     .option('-p, --port <port>', 'http server port, default 4000', parseInt)
     .option('-b, --bind <bind>', 'bind to a specific host, default 127.0.0.1')
@@ -55,19 +57,22 @@ function main(argv) {
 
   program.parse(process.argv)
 
-  options = {}
+  var options = {}
   options.port = program.port || 4000
   options.interval = program.interval || 500
   options.delay = program.delay || 0
   options.host = program.bind || 'localhost'
-  options.log = !program.quiet
+  options.serveDir = program.serve
+  options.watchexps = program.watchexp
+  options.proxy = program.proxy
+  options.quite = program.quiet
 
-  if (!program.serve && !program.watchexp.length && !program.proxy) {
+  if (!options.serveDir && !options.watchexps.length && !options.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
   }
 
-  ls = LightServer(program.serve, program.watchexp, program.proxy, options)
+  var ls = LightServer(options)
   ls.start()
 }
 
