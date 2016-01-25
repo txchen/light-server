@@ -117,7 +117,7 @@ LightServer.prototype.processWatchExp = function(filesToWatch, commandToRun, rel
 
     console.log('## executing command: ' + commandToRun)
     var start = new Date().getTime()
-    p = spawn(_this.shell, [_this.firstParam, commandToRun], { stdio: 'inherit' })
+    var p = spawn(_this.shell, [_this.firstParam, commandToRun], { stdio: 'inherit' })
     p.on('close', function(code) {
       if (code !== 0) {
         console.log('## ERROR: command ' + commandToRun + ' exited with code ' + code)
