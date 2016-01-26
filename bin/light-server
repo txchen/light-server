@@ -10,6 +10,7 @@
 'use strict'
 
 var LightServer = require('../index')
+var rc = require('../rc')
 var program = require('commander')
 
 function main(argv) {
@@ -38,6 +39,7 @@ function main(argv) {
        console.log('    $ light-server -s . -b 10.0.0.1')
        console.log('    $ light-server -x http://localhost:9999 -w "public/**"')
        console.log('    $ light-server -s static -w "**/*.css # # reloadcss"')
+       console.log('    $ light-server -c .lightserverrc')
        console.log('')
        console.log('  Watch expression syntax: "files[,files] # [command to run] # [reload action]"')
        console.log('    3 parts delimited by #')
@@ -57,23 +59,36 @@ function main(argv) {
 
   program.parse(process.argv)
 
-  var options = {}
-  options.port = program.port || 4000
-  options.interval = program.interval || 500
-  options.delay = program.delay || 0
-  options.host = program.bind || 'localhost'
-  options.serveDir = program.serve
-  options.watchexps = program.watchexp
-  options.proxy = program.proxy
-  options.quite = program.quiet
+  var options = {
+    port: 4000,
+    interval: 500,
+    delay: 0,
+    host: 'localhost',
+    watchexps: [],
+  }
+  if (program.config) {
+    Object.assign(options, rc(program.config))
+  }
+  // cli can override config file
+  var cliOptions = {
+    port: program.port,
+    interval: program.interval,
+    delay: program.delay,
+    host: program.bind,
+    serveDir: program.serve,
+    watchexps: program.watchexp.length ? program.watchexp : undefined,
+    proxy: program.proxy,
+    quite: program.quiet,
+  }
+  cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties
+  Object.assign(options, cliOptions)
 
   if (!options.serveDir && !options.watchexps.length && !options.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
   }
 
-  var ls = LightServer(options)
-  ls.start()
+  LightServer(options).start()
 }
 
 main(process.argv.slice(2))

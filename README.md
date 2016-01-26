@@ -45,6 +45,7 @@ Options:
 
   -h, --help                           output usage information
   -V, --version                        output the version number
+  -c, --config <configfile>            read options from config file
   -s, --serve <directory>              serve the directory as static http
   -p, --port <port>                    http server port, default 4000
   -b, --bind <bind>                    bind to a specific host, default 127.0.0.1
@@ -62,6 +63,7 @@ Examples:
   $ light-server -s . -b 10.0.0.1
   $ light-server -x http://localhost:9999 -w "public/**"
   $ light-server -s static -w "**/*.css # # reloadcss"
+  $ light-server -c .lightserverrc
 
 Watch expression syntax: "files[,files] # [command to run] # [reload action]"
   3 parts delimited by #
@@ -138,6 +140,32 @@ The build process is defined in script `build`, which is quite straightforward.
 During development, we can use `npm run dev`, which will use light-server to serve the static content, and watch the changes of any js/html files under `src` directory. When it detects file change, it would trigger build and if build pass, browser will auto reload. And light-server will watch the source css file, when it changes, trigger reloadcss, which is faster than page refresh.
 
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
+
+## Config file
+
+Light-server also supports read options from config file, it might be useful if the command line is too long in your package.json.
+
+To use config file, create a json file and use `-c/--config`. The config template is like this:
+
+```json
+{
+  "port": 8000,
+  "interval": 500,
+  "delay": 0,
+  "host": "localhost",
+  "serveDir": "src",
+  "watchexps": [
+    "**.js # npm run build",
+    "*.css # # reloadcss"
+  ],
+  "proxy": "http://localhost:9999",
+  "quite": false
+}
+```
+
+You can use comments in the json, because we love comments in json:) Also all the fields in the json are optional.
+
+The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
 
