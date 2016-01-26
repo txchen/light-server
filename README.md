@@ -169,6 +169,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2016-01-25** `1.1.5`
+Add config file support.
+
 **2016-01-24** `1.1.4`
 Improve css reload, thanks @eliot-akira for the PR.
 
