@@ -69,6 +69,7 @@ function main(argv) {
   if (program.config) {
     Object.assign(options, rc(program.config))
   }
+
   // cli can override config file
   var cliOptions = {
     port: program.port,
