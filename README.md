@@ -169,6 +169,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2016-03-10** `1.1.6`
+Fix proxyUrl bug, thanks @aemkei for the PR.
+
 **2016-01-25** `1.1.5`
 Add config file support.
 
