@@ -78,7 +78,7 @@ function main(argv) {
     host: program.bind,
     serveDir: program.serve,
     watchexps: program.watchexp.length ? program.watchexp : undefined,
-    proxy: program.proxy,
+    proxyUrl: program.proxy,
     quite: program.quiet,
   }
   cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties
