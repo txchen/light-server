@@ -64,16 +64,18 @@ Examples:
   $ light-server -x http://localhost:9999 -w "public/**"
   $ light-server -s static -w "**/*.css # # reloadcss"
   $ light-server -c .lightserverrc
+  & light-server -s . -p 8000 -w "src/**/*.js # npm run js # no-reload"
 
 Watch expression syntax: "files[,files] # [command to run] # [reload action]"
   3 parts delimited by #
   1st part: files to watch, support glob format, delimited by ","
   2nd part: (optional) command to run, before reload
-  3rd part: (optional) reload action, default is "reload", also support "reloadcss"
+  3rd part: (optional) reload action, default is "reload", also supports "reloadcss" or "no-reload" to run a command without a browser refresh
   Examples:
     "**/*.js, index.html # npm run build # reload"
     "*.css # # reloadcss"
     "** # make"
+    "**/*.js # npm run build # no-reload"
 ```
 
 It is quite simple, specify the folder to serve as static http, specify the files to watch, specify the command to run when watched files change, and light-server will do the job.
