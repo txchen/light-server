@@ -145,7 +145,7 @@ Livereload.prototype.triggerCSSReload = function (delay) {
 Livereload.prototype.trigger = function (action, delay) {
   if (action === 'reloadcss') {
     this.triggerCSSReload(delay)
-  } else if(action !== 'no-reload') {
+  } else if (action !== 'no-reload') {
     this.triggerReload(delay)
   }
 }
