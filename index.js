@@ -97,7 +97,7 @@ LightServer.prototype.watch = function () {
     var filesToWatch = tokens[0].trim().split(/\s*,\s*/)
     var commandToRun = tokens[1]
     var reloadOption = tokens[2]
-    if (reloadOption !== 'reloadcss') {
+    if (reloadOption !== 'reloadcss' && reloadOption !== 'no-reload') {
       reloadOption = 'reload' // default value
     }
 
