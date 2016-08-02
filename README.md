@@ -160,8 +160,8 @@ To use config file, create a json file and use `-c/--config`. The config templat
     "**.js # npm run build",
     "*.css # # reloadcss"
   ],
-  "proxy": "http://localhost:9999",
-  "quite": false
+  "proxyUrl": "http://localhost:9999",
+  "quiet": false
 }
 ```
 
