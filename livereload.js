@@ -12,7 +12,7 @@ var triggerCSSPath = prefix + '/triggercss'
 var clientJsContent = [
 'var ws',
 'function socket() {',
-'  ws = new WebSocket("ws://" + window.location.host)',
+'  ws = new WebSocket("%WS_PROTOCOL%://" + window.location.host)',
 '  ws.onmessage = function (e) {',
 '    var data = JSON.parse(e.data)',
 '    if (data.r) {',
@@ -54,6 +54,7 @@ var wsArray = []
 function Livereload(options) {
   if (!(this instanceof Livereload)) return new Livereload(options)
   this.options = options
+  clientJsContent = clientJsContent.replace('%WS_PROTOCOL%', this.options.http2 ? 'wss' : 'ws')
 }
 
 Livereload.prototype.writeLog = function (logLine) {

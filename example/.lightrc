@@ -5,5 +5,6 @@
     "src/templates/**/*pug # npm run html",
     "src/scripts/**/*js # npm run js",
     "src/styles/**/*styl # npm run css # reloadcss"
- ]
+ ],
+ "http2": true
 }

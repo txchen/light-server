@@ -54,10 +54,12 @@ Options:
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
   -q, --quiet                          quiet mode with minimum log message
+  --http2                              enable http2 tls mode
 
 Examples:
 
   $ light-server -s . -p 7000
+  $ light-server -s dist --http2
   $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
   $ light-server -s . -b 10.0.0.1
@@ -161,11 +163,14 @@ To use config file, create a json file and use `-c/--config`. The config templat
     "*.css # # reloadcss"
   ],
   "proxy": "http://localhost:9999",
-  "quiet": false
+  "quiet": false,
+  "http2": false
 }
 ```
 
 You can use comments in the json, because we love comments in json:) Also all the fields in the json are optional.
+
+[This](./example) is an example to show how to use the config file, thanks @Scarysize for making this.
 
 The values in the command line have higher priority than the ones in config file.
 

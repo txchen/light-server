@@ -9,7 +9,6 @@
 
 var connect = require('connect')
 var serveStatic = require('serve-static')
-var http = require('http')
 var morgan = require('morgan')
 var injector = require('connect-injector')
 var Watcher = require('./watcher')
@@ -44,6 +43,7 @@ LightServer.prototype.start = function () {
   var app = connect()
   _this.lr = LR({
     quiet: _this.options.quiet,
+    http2: _this.options.http2,
   })
 
   !this.options.quiet && app.use(morgan('dev'))
@@ -66,9 +66,20 @@ LightServer.prototype.start = function () {
     app.use(proxy(_this.options.proxy).middleFunc)
   }
 
-  var server = http.createServer(app)
+  if (_this.options.http2) {
+    var fs = require('fs')
+    var path = require('path')
+    console.log(__dirname)
+    var server = require('spdy').createServer({
+      key: fs.readFileSync(path.join(__dirname, '/localhost.key')),
+      cert: fs.readFileSync(path.join(__dirname, '/localhost.crt')),
+    }, app)
+  } else {
+    var server = require('http').createServer(app)
+  }
+
   server.listen(_this.options.port, _this.options.bind, function () {
-    console.log('light-server is listening at http://'  + _this.options.bind + ':' + _this.options.port)
+    console.log('light-server is listening at ' + (_this.options.http2 ? 'https://' : 'http://') + _this.options.bind + ':' + _this.options.port)
     if (_this.options.serve) {
       _this.writeLog('  serving static dir: ' + _this.options.serve)
     }

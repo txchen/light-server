@@ -30,6 +30,7 @@ function main(argv) {
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .option('-q, --quiet', 'quiet mode with minimum log message')
+    .option('--http2', 'enable http2 tls mode')
     .on('--help', function () {
        console.log('  Examples:')
        console.log('')
@@ -80,6 +81,7 @@ function main(argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     quiet: program.quiet,
+    http2: program.http2,
   }
   cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties
   Object.assign(options, cliOptions)
