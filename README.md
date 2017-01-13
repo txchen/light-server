@@ -176,6 +176,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2017-01-13** `1.1.9`
+Add http2 mode.
+
 **2017-01-13** `1.1.8`
 Make the options in configFile, cli and default use consistent names. Thanks @pmast for the initial PR.
 
