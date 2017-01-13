@@ -66,8 +66,29 @@ function main(argv) {
     host: 'localhost',
     watchexps: [],
   }
+
   if (program.config) {
-    Object.assign(options, rc(program.config))
+    var configOptions = rc(program.config);
+
+    // rename config options so that they get merged propperly
+    if (configOptions.bind) {
+      configOptions.host = configOptions.bind;
+      delete configOptions.bind;
+    }
+    if (configOptions.serve) {
+      configOptions.serveDir = configOptions.serve;
+      delete configOptions.serve;
+    }
+    if (configOptions.proxy) {
+      configOptions.proxyUrl = configOptions.proxy;
+      delete configOptions.proxy;
+    }
+    if (configOptions.quiet) {
+      configOptions.quite = configOptions.quiet;
+      delete configOptions.quiet;
+    }
+
+    Object.assign(options, configOptions)
   }
 
   // cli can override config file
