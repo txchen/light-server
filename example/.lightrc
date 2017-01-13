@@ -1,6 +1,6 @@
 {
  "port": 8000,
- "serveDir": "build",
+ "serve": "build",
  "watchexps": [
     "src/templates/**/*pug # npm run html",
     "src/scripts/**/*js # npm run js",

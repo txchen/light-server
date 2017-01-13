@@ -31,22 +31,22 @@ function LightServer(options) {
 }
 
 LightServer.prototype.writeLog = function (logLine) {
-  !this.options.quite && console.log(logLine)
+  !this.options.quiet && console.log(logLine)
 }
 
 LightServer.prototype.start = function () {
   var _this = this
-  if (!_this.options.serveDir && !_this.options.proxyUrl) {
+  if (!_this.options.serve && !_this.options.proxy) {
     _this.watch()
     return
   }
 
   var app = connect()
   _this.lr = LR({
-    quite: _this.options.quite,
+    quiet: _this.options.quiet,
   })
 
-  !this.options.quite && app.use(morgan('dev'))
+  !this.options.quiet && app.use(morgan('dev'))
   app.use(_this.lr.middleFunc)
   app.use(injector(
     function (req, res) {
@@ -58,23 +58,23 @@ LightServer.prototype.start = function () {
     })
   )
 
-  if (_this.options.serveDir) {
-    app.use(serveStatic(_this.options.serveDir))
+  if (_this.options.serve) {
+    app.use(serveStatic(_this.options.serve))
   }
 
-  if (_this.options.proxyUrl) {
-    app.use(proxy(_this.options.proxyUrl).middleFunc)
+  if (_this.options.proxy) {
+    app.use(proxy(_this.options.proxy).middleFunc)
   }
 
   var server = http.createServer(app)
-  server.listen(_this.options.port, _this.options.host, function () {
-    console.log('light-server is listening at http://'  + _this.options.host + ':' + _this.options.port)
-    if (_this.options.serveDir) {
-      _this.writeLog('  serving static dir: ' + _this.options.serveDir)
+  server.listen(_this.options.port, _this.options.bind, function () {
+    console.log('light-server is listening at http://'  + _this.options.bind + ':' + _this.options.port)
+    if (_this.options.serve) {
+      _this.writeLog('  serving static dir: ' + _this.options.serve)
     }
 
-    if (_this.options.proxyUrl) {
-      _this.writeLog('  when static file not found, proxy to ' + _this.options.proxyUrl)
+    if (_this.options.proxy) {
+      _this.writeLog('  when static file not found, proxy to ' + _this.options.proxy)
     }
 
     _this.writeLog('')

@@ -57,7 +57,7 @@ function Livereload(options) {
 }
 
 Livereload.prototype.writeLog = function (logLine) {
-  !this.options.quite && console.log(logLine)
+  !this.options.quiet && console.log(logLine)
 }
 
 Livereload.prototype.middleFunc = function livereload(req, res, next) {

@@ -63,7 +63,7 @@ function main(argv) {
     port: 4000,
     interval: 500,
     delay: 0,
-    host: 'localhost',
+    bind: 'localhost',
     watchexps: [],
   }
   if (program.config) {
@@ -75,16 +75,16 @@ function main(argv) {
     port: program.port,
     interval: program.interval,
     delay: program.delay,
-    host: program.bind,
-    serveDir: program.serve,
+    bind: program.bind,
+    serve: program.serve,
     watchexps: program.watchexp.length ? program.watchexp : undefined,
-    proxyUrl: program.proxy,
-    quite: program.quiet,
+    proxy: program.proxy,
+    quiet: program.quiet,
   }
   cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties
   Object.assign(options, cliOptions)
 
-  if (!options.serveDir && !options.watchexps.length && !options.proxy) {
+  if (!options.serve && !options.watchexps.length && !options.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
   }

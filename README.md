@@ -154,13 +154,13 @@ To use config file, create a json file and use `-c/--config`. The config templat
   "port": 8000,
   "interval": 500,
   "delay": 0,
-  "host": "localhost",
-  "serveDir": "src",
+  "bind": "localhost",
+  "serve": "src",
   "watchexps": [
     "**.js # npm run build",
     "*.css # # reloadcss"
   ],
-  "proxyUrl": "http://localhost:9999",
+  "proxy": "http://localhost:9999",
   "quiet": false
 }
 ```
@@ -170,6 +170,9 @@ You can use comments in the json, because we love comments in json:) Also all th
 The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
+
+**2017-01-13** `1.1.8`
+Make the options in configFile, cli and default use consistent names. Thanks @pmast for the initial PR.
 
 **2016-05-30** `1.1.7`
 Add no-reload option, thanks @Scarysize for the PR.
@@ -184,7 +187,7 @@ Add config file support.
 Improve css reload, thanks @eliot-akira for the PR.
 
 **2016-01-22** `1.1.3`
-Add quite mode, thanks @eliot-akira for the PR.
+Add quiet mode, thanks @eliot-akira for the PR.
 
 **2015-12-01** `1.1.2`
 Improve help message.
