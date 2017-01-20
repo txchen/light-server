@@ -171,6 +171,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2017-01-19** `1.1.10`
+1.1.8 and 1.1.9 introduced breaking change, republish a new 1.1.x to fix.
+
 **2016-05-30** `1.1.7`
 Add no-reload option, thanks @Scarysize for the PR.
 
