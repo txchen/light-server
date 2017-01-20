@@ -176,8 +176,11 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
-**2017-01-13** `2.0.0`
+**2017-01-19** `2.0.0`
 Bump version to 2.0.0, since 1.1.8 introduced breaking changes.
+
+**2017-01-19** `1.1.10`
+1.1.8 and 1.1.9 introduced breaking change, republish a new 1.1.x to fix.
 
 **2017-01-13** `1.1.9`
 Add http2 mode.
