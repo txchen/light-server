@@ -176,7 +176,7 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
-**2017-01-19** `2.0.2`
+**2017-04-30** `2.0.2`
 Change default bind value to undefined, align with node server.listen.
 
 **2017-01-19** `2.0.0`
