@@ -3,7 +3,7 @@
  *
  * Serve, watch, exucute commands and live-reload, all in one.
  *
- * Copyright (c) 2015 by Tianxiang Chen
+ * Copyright (c) 2017 by Tianxiang Chen
  */
 'use strict'
 
@@ -79,7 +79,7 @@ LightServer.prototype.start = function () {
   }
 
   server.listen(_this.options.port, _this.options.bind, function () {
-    console.log('light-server is listening at ' + (_this.options.http2 ? 'https://' : 'http://') + _this.options.bind + ':' + _this.options.port)
+    console.log('light-server is listening at ' + (_this.options.http2 ? 'https://' : 'http://') + (_this.options.bind || '0.0.0.0') + ':' + _this.options.port)
     if (_this.options.serve) {
       _this.writeLog('  serving static dir: ' + _this.options.serve)
     }

@@ -48,7 +48,7 @@ Options:
   -c, --config <configfile>            read options from config file
   -s, --serve <directory>              serve the directory as static http
   -p, --port <port>                    http server port, default 4000
-  -b, --bind <bind>                    bind to a specific host, default 127.0.0.1
+  -b, --bind <bind>                    bind to a specific host, default 0.0.0.0
   -w, --watchexp <watch expression>    watch expression, repeatable
   -i, --interval <watch inteval>       interval in ms of watching, default 500
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
@@ -175,6 +175,9 @@ You can use comments in the json, because we love comments in json:) Also all th
 The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
+
+**2017-01-19** `2.0.2`
+Change default bind value to undefined, align with node server.listen.
 
 **2017-01-19** `2.0.0`
 Bump version to 2.0.0, since 1.1.8 introduced breaking changes.

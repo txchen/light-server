@@ -5,7 +5,7 @@
  *
  * Serve, watch, exucute commands and live-reload, all in one.
  *
- * Copyright (c) 2015 by Tianxiang Chen
+ * Copyright (c) 2017 by Tianxiang Chen
  */
 'use strict'
 
@@ -24,7 +24,7 @@ function main(argv) {
     .option('-c, --config <configfile>', 'read options from config file')
     .option('-s, --serve <directory>', 'serve the directory as static http')
     .option('-p, --port <port>', 'http server port, default 4000', parseInt)
-    .option('-b, --bind <bind>', 'bind to a specific host, default 127.0.0.1')
+    .option('-b, --bind <bind>', 'bind to a specific host, default 0.0.0.0')
     .option('-w, --watchexp <watch expression>', 'watch expression, repeatable', collect, [])
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
@@ -64,7 +64,7 @@ function main(argv) {
     port: 4000,
     interval: 500,
     delay: 0,
-    bind: 'localhost',
+    bind: undefined,
     watchexps: [],
   }
   if (program.config) {
