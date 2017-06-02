@@ -3,14 +3,23 @@
 var httpProxy = require('http-proxy')
 var _this = this
 
-function Proxy(url) {
-  if (!(this instanceof Proxy)) return new Proxy(url)
-  _this.proxyUrl = url
-  _this.proxy = httpProxy.createProxyServer({ changeOrigin: true })
+function Proxy(_opt) {
+  if (!(this instanceof Proxy)) return new Proxy(_opt)
+  if(typeof _opt == "string"){
+    _this.proxyUrl = _opt;
+    _this.options = {
+      target:_this.proxUrl,
+      changeOrigin: true
+    };
+  }else{
+    _this._proxyUrl = _opt.target;
+    _this.options = _opt;
+  }
+  _this.proxy = httpProxy.createProxyServer(_this.options)
 }
 
 Proxy.prototype.middleFunc = function livereload(req, res, next) {
-  _this.proxy.web(req, res, { target: _this.proxyUrl })
+  _this.proxy.web(req, res, _this.options)
 }
 
 module.exports = Proxy
