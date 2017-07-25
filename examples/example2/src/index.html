@@ -3,8 +3,58 @@
   <head>
     <meta charset="utf-8">
     <title>ls example 2</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      background: #f9f7f5;
+    }
+    </style>
   </head>
   <body>
-    <div>test24</div>
+    <div id="app">
+      <div class="container">
+        <ul>
+          <li>
+            <a href="/" @click="go('/', $event)">Home</a>
+            <a href="/about" @click="go('/about', $event)">About</a>
+            <a href="/bonus" @click="go('/bonus', $event)">Bonus</a>
+          </li>
+        </ul>
+        <div>{{ currentContent }}</div>
+      </div>
+    </div>
+    <script>
+    const routes = {
+      '/': 'This is home',
+      '/about': 'This is about',
+      '/bonus': 'This is bonus'
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        currentRoute: window.location.pathname
+      },
+      computed: {
+        currentContent () {
+          return routes[this.currentRoute] || 'This is not found'
+        }
+      },
+      methods: {
+        go (path, event) {
+          event.preventDefault()
+          this.currentRoute = path
+          window.history.pushState(
+            null,
+            routes[path],
+            path
+          )
+        }
+      }
+    })
+    </script>
   </body>
 </html>
+
