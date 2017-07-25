@@ -1,0 +1,9 @@
+{
+ "port": 8005,
+ "serve": "src",
+ "watchexps": [
+    "src/**"
+ ],
+ "http2": false,
+ "open": false
+}
