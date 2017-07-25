@@ -54,12 +54,13 @@ Options:
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
   -q, --quiet                          quiet mode with minimum log message
+  -o, --open                           open browser automatically
   --http2                              enable http2 tls mode
 
 Examples:
 
   $ light-server -s . -p 7000
-  $ light-server -s dist --http2
+  $ light-server -s dist --http2 -o
   $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
   $ light-server -s . -b 10.0.0.1
@@ -88,7 +89,7 @@ You don't need to use all the features, and that's totally ok:
 
 * You can serve http without watching files.
 * You can serve http and enable live-reload, without triggering command.
-* You can watch files and trigger command, without serving http. This makes light-server work like `nodemon`, but it is better than that.
+* You can watch files and trigger command, without serving http. This makes light-server work like `nodemon`, with more flexibility.
 
 ## Manual trigger live-reload
 
@@ -175,6 +176,9 @@ You can use comments in the json, because we love comments in json:) Also all th
 The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
+
+**2017-07-24** `2.1.0`
+Add -o/--open option, to open browser automatically.
 
 **2017-04-30** `2.0.2`
 Change default bind value to undefined, align with node server.listen.

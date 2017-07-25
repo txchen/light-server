@@ -29,12 +29,14 @@ function main(argv) {
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
+    .option('-o, --open', 'open browser automatically')
     .option('-q, --quiet', 'quiet mode with minimum log message')
     .option('--http2', 'enable http2 tls mode')
     .on('--help', function () {
        console.log('  Examples:')
        console.log('')
        console.log('    $ light-server -s . -p 7000')
+       console.log('    $ light-server -s dist --http2 -o')
        console.log('    $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"')
        console.log('    $ light-server -s . -x http://localhost:8000')
        console.log('    $ light-server -s . -b 10.0.0.1')
@@ -81,6 +83,7 @@ function main(argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     quiet: program.quiet,
+    open: program.open,
     http2: program.http2,
   }
   cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties

@@ -10,7 +10,13 @@ function Proxy(url) {
 }
 
 Proxy.prototype.middleFunc = function livereload(req, res, next) {
-  _this.proxy.web(req, res, { target: _this.proxyUrl })
+  _this.proxy.web(req, res, { target: _this.proxyUrl }, function (err, req, res) {
+    console.error('failed to connect to proxy: ' + _this.proxyUrl + ' - ' + err.message)
+    res.writeHead(500, {
+      'Content-Type': 'text/plain',
+    })
+    res.end(err.stack)
+  })
 }
 
 module.exports = Proxy

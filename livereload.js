@@ -63,6 +63,12 @@ Livereload.prototype.writeLog = function (logLine) {
 
 Livereload.prototype.middleFunc = function livereload(req, res, next) {
   var pathname = parseUrl(req).pathname
+  if (req.method == 'GET' && pathname == '/favicon.ico') {
+    res.writeHead(204)
+    res.end('favicon not found')
+    return
+  }
+
   if (pathname.indexOf(prefix) == -1) {
     next()
     return

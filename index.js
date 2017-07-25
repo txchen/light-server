@@ -79,7 +79,9 @@ LightServer.prototype.start = function () {
   }
 
   server.listen(_this.options.port, _this.options.bind, function () {
-    console.log('light-server is listening at ' + (_this.options.http2 ? 'https://' : 'http://') + (_this.options.bind || '0.0.0.0') + ':' + _this.options.port)
+    var listeningAddr = (_this.options.http2 ? 'https://' : 'http://') +
+      (_this.options.bind || '0.0.0.0') + ':' + _this.options.port
+    console.log('light-server is listening at ' + listeningAddr)
     if (_this.options.serve) {
       _this.writeLog('  serving static dir: ' + _this.options.serve)
     }
@@ -91,6 +93,11 @@ LightServer.prototype.start = function () {
     _this.writeLog('')
     _this.lr.startWS(server) // websocket shares same port with http
     _this.watch()
+
+    if (_this.options.open) {
+      var opener = require('opener')
+      opener(listeningAddr)
+    }
   }).on('error', function (err) {
     if (err.errno === 'EADDRINUSE') {
       console.log('## ERROR: port ' + _this.options.port + ' is already in use')
