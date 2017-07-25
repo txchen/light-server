@@ -6,5 +6,6 @@
     "src/scripts/**/*js # npm run js",
     "src/styles/**/*styl # npm run css # reloadcss"
  ],
- "http2": false
+ "http2": false,
+ "open": true
 }

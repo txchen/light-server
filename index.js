@@ -17,7 +17,7 @@ var spawn = require('child_process').spawn
 var os = require('os').type()
 var proxy = require('./proxy')
 
-function LightServer(options) {
+function LightServer (options) {
   if (!(this instanceof LightServer)) return new LightServer(options)
   this.options = options
   if (os === 'Windows_NT') {
@@ -43,7 +43,7 @@ LightServer.prototype.start = function () {
   var app = connect()
   _this.lr = LR({
     quiet: _this.options.quiet,
-    http2: _this.options.http2,
+    http2: _this.options.http2
   })
 
   !this.options.quiet && app.use(morgan('dev'))
@@ -66,16 +66,17 @@ LightServer.prototype.start = function () {
     app.use(proxy(_this.options.proxy).middleFunc)
   }
 
+  var server
   if (_this.options.http2) {
     var fs = require('fs')
     var path = require('path')
     console.log(__dirname)
-    var server = require('spdy').createServer({
+    server = require('spdy').createServer({
       key: fs.readFileSync(path.join(__dirname, '/localhost.key')),
-      cert: fs.readFileSync(path.join(__dirname, '/localhost.crt')),
+      cert: fs.readFileSync(path.join(__dirname, '/localhost.crt'))
     }, app)
   } else {
-    var server = require('http').createServer(app)
+    server = require('http').createServer(app)
   }
 
   server.listen(_this.options.port, _this.options.bind, function () {

@@ -165,6 +165,7 @@ To use config file, create a json file and use `-c/--config`. The config templat
   ],
   "proxy": "http://localhost:9999",
   "quiet": false,
+  "open": true,
   "http2": false
 }
 ```

@@ -1,7 +1,6 @@
 'use strict'
 
 var parseUrl = require('parseurl')
-var inherits = require('util').inherits
 var WS = require('ws').Server
 var EventEmitter = require('events').EventEmitter
 var prefix = '/__lightserver__'
@@ -10,48 +9,48 @@ var triggerPath = prefix + '/trigger'
 var triggerCSSPath = prefix + '/triggercss'
 
 var clientJsContent = [
-'var ws',
-'function socket() {',
-'  ws = new WebSocket("%WS_PROTOCOL%://" + window.location.host)',
-'  ws.onmessage = function (e) {',
-'    var data = JSON.parse(e.data)',
-'    if (data.r) {',
-'      location.reload()',
-'    }',
-'    if (data.rcss) {',
-'      refreshCSS()',
-'    }',
-'  }',
-'}',
-'function refreshCSS() {',
-'  console.log("reload css at:" + new Date())',
-'  var sheets = document.getElementsByTagName("link");',
-'  for (var i = 0; i < sheets.length; i++) {',
-'    var elem = sheets[i];',
-'    var rel = elem.rel;',
-'    if (elem.href && elem.href.substring(0, 5) !== "data:" && (typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet")) {',
-'      var url = elem.href.replace(/(&|\\?)_cacheOverride=\\d+/, "");',
-'      elem.href = url + (url.indexOf("?") >= 0 ? "&" : "?") + "_cacheOverride=" + (new Date().valueOf());',
-'    }',
-'  }',
-'}',
-'socket()',
-'setInterval(function () {',
-'  if (ws) {',
-'    if (ws.readyState !== 1) {',
-'      socket()',
-'    }',
-'  } else {',
-'    socket()',
-'  }',
-'}, 3000)',
+  'var ws',
+  'function socket() {',
+  '  ws = new WebSocket("%WS_PROTOCOL%://" + window.location.host)',
+  '  ws.onmessage = function (e) {',
+  '    var data = JSON.parse(e.data)',
+  '    if (data.r) {',
+  '      location.reload()',
+  '    }',
+  '    if (data.rcss) {',
+  '      refreshCSS()',
+  '    }',
+  '  }',
+  '}',
+  'function refreshCSS() {',
+  '  console.log("reload css at:" + new Date())',
+  '  var sheets = document.getElementsByTagName("link");',
+  '  for (var i = 0; i < sheets.length; i++) {',
+  '    var elem = sheets[i];',
+  '    var rel = elem.rel;',
+  '    if (elem.href && elem.href.substring(0, 5) !== "data:" && (typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet")) {',
+  '      var url = elem.href.replace(/(&|\\?)_cacheOverride=\\d+/, "");',
+  '      elem.href = url + (url.indexOf("?") >= 0 ? "&" : "?") + "_cacheOverride=" + (new Date().valueOf());',
+  '    }',
+  '  }',
+  '}',
+  'socket()',
+  'setInterval(function () {',
+  '  if (ws) {',
+  '    if (ws.readyState !== 1) {',
+  '      socket()',
+  '    }',
+  '  } else {',
+  '    socket()',
+  '  }',
+  '}, 3000)'
 ].join('\n')
 
-var emitter = new EventEmitter
+var emitter = new EventEmitter()
 var wss
 var wsArray = []
 
-function Livereload(options) {
+function Livereload (options) {
   if (!(this instanceof Livereload)) return new Livereload(options)
   this.options = options
   clientJsContent = clientJsContent.replace('%WS_PROTOCOL%', this.options.http2 ? 'wss' : 'ws')
@@ -61,33 +60,33 @@ Livereload.prototype.writeLog = function (logLine) {
   !this.options.quiet && console.log(logLine)
 }
 
-Livereload.prototype.middleFunc = function livereload(req, res, next) {
+Livereload.prototype.middleFunc = function livereload (req, res, next) {
   var pathname = parseUrl(req).pathname
-  if (req.method == 'GET' && pathname == '/favicon.ico') {
+  if (req.method === 'GET' && pathname === '/favicon.ico') {
     res.writeHead(204)
     res.end('favicon not found')
     return
   }
 
-  if (pathname.indexOf(prefix) == -1) {
+  if (pathname.indexOf(prefix) === -1) {
     next()
     return
   }
 
-  if (req.method == 'GET' && pathname == clientJsPath) {
+  if (req.method === 'GET' && pathname === clientJsPath) {
     res.writeHead(200)
     res.end(clientJsContent)
     return
   }
 
-  if (pathname == triggerPath) {
+  if (pathname === triggerPath) {
     res.writeHead(200)
     res.end('ok')
     emitter.emit('reload')
     return
   }
 
-  if (pathname == triggerCSSPath) {
+  if (pathname === triggerCSSPath) {
     res.writeHead(200)
     res.end('ok')
     emitter.emit('reloadcss')
@@ -105,7 +104,7 @@ Livereload.prototype.startWS = function (server) {
     ws.on('close', function () {
       var index = wsArray.indexOf(ws)
       if (index > -1) {
-        wsArray.splice(index, 1);
+        wsArray.splice(index, 1)
       }
     })
   })
