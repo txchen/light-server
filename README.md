@@ -24,6 +24,7 @@ Then I wrote light-server, with the following features:
 * Auto inject client reload javascript in html, no need to manually add
 * Live reload websocket server uses the same port as http server
 * Proxy to another http server
+* Html5 history API mode for SPA
 
 And now my package.json is simpler and cleaner than before :)
 
@@ -182,6 +183,9 @@ You can use comments in the json, because we love comments in json:) Also all th
 The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
+
+**2017-07-26** `2.2.0`
+Add --proxypath. Add history fallback mode, for SPA development.
 
 **2017-07-24** `2.1.0`
 Add -o/--open option, to open browser automatically.
