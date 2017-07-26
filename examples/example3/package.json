@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "bedev": "NODE_ENV=dev nodemon index.js",
+    "fedev": "light-server -c .lightrc"
+  },
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "koa2-history-api-fallback": "0.0.5",
+    "light-server": "../../"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

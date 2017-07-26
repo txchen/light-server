@@ -1,0 +1,10 @@
+{
+ "port": 8009,
+ "serve": "public",
+ "watchexps": [
+    "public/**"
+ ],
+ "historyindex": "/index.html",
+ "proxy": "http://localhost:8010",
+ "proxypath": "/api"
+}

@@ -53,18 +53,21 @@ Options:
   -i, --interval <watch inteval>       interval in ms of watching, default 500
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
+  --proxypath <proxypath>              only send to proxy when path match this pattern, default is "/"
   -q, --quiet                          quiet mode with minimum log message
   -o, --open                           open browser automatically
   --http2                              enable http2 tls mode
+  --historyindex <historyindex>        404 fallback index path, used by SPA development
 
 Examples:
 
   $ light-server -s . -p 7000
   $ light-server -s dist --http2 -o
+  $ light-server -s dist --historyindex '/index.html'
   $ light-server -s . -w "*.js, src/** # npm run build && echo wow!"
   $ light-server -s . -x http://localhost:8000
   $ light-server -s . -b 10.0.0.1
-  $ light-server -x http://localhost:9999 -w "public/**"
+  $ light-server -x http://localhost:9999 --proxypath "/api" -w "public/**"
   $ light-server -s static -w "**/*.css # # reloadcss"
   $ light-server -c .lightserverrc
   & light-server -s . -p 8000 -w "src/**/*.js # npm run js # no-reload"
@@ -164,8 +167,10 @@ To use config file, create a json file and use `-c/--config`. The config templat
     "*.css # # reloadcss"
   ],
   "proxy": "http://localhost:9999",
+  "proxypath": "/api",
   "quiet": false,
   "open": true,
+  "historyindex": "/index.html",
   "http2": false
 }
 ```

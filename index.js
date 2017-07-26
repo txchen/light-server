@@ -8,14 +8,13 @@
 'use strict'
 
 var connect = require('connect')
-var serveStatic = require('serve-static')
 var morgan = require('morgan')
+var serveStatic = require('serve-static')
 var injector = require('connect-injector')
 var Watcher = require('./watcher')
 var LR = require('./livereload')
 var spawn = require('child_process').spawn
 var os = require('os').type()
-var proxy = require('./proxy')
 
 function LightServer (options) {
   if (!(this instanceof LightServer)) return new LightServer(options)
@@ -41,12 +40,12 @@ LightServer.prototype.start = function () {
   }
 
   var app = connect()
+  !this.options.quiet && app.use(morgan('dev'))
+
   _this.lr = LR({
     quiet: _this.options.quiet,
     http2: _this.options.http2
   })
-
-  !this.options.quiet && app.use(morgan('dev'))
   app.use(_this.lr.middleFunc)
   app.use(injector(
     function (req, res) {
@@ -63,7 +62,14 @@ LightServer.prototype.start = function () {
   }
 
   if (_this.options.proxy) {
-    app.use(proxy(_this.options.proxy).middleFunc)
+    var proxy = require('./proxy')
+    app.use(proxy(_this.options.proxy, _this.options.proxypath).middleFunc)
+  }
+
+  if (_this.options.historyindex) {
+    var history = require('connect-history-api-fallback')
+    app.use(history({ index: _this.options.historyindex }))
+    app.use(serveStatic(_this.options.serve))
   }
 
   var server
@@ -89,6 +95,7 @@ LightServer.prototype.start = function () {
 
     if (_this.options.proxy) {
       _this.writeLog('  when static file not found, proxy to ' + _this.options.proxy)
+      _this.writeLog('    if url path starts with "' + _this.options.proxypath + '"')
     }
 
     _this.writeLog('')

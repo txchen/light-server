@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ls example 2</title>
+    <script src="//unpkg.com/vue"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
+    <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      background: #f9f7f5;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <ul>
+          <li>
+            <a href="/" @click="go('/', $event)">Home</a>
+            <a href="/about" @click="go('/about', $event)">About</a>
+            <a href="/bonus" @click="go('/bonus', $event)">Bonus</a>
+          </li>
+        </ul>
+        <div>{{ currentContent }}</div>
+        <hr>
+        <div>API result from server: {{ apiResult }}</div>
+      </div>
+    </div>
+    <script>
+    const routes = {
+      '/': 'This is home',
+      '/about': 'This is about',
+      '/bonus': 'This is bonus'
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        currentRoute: window.location.pathname,
+        apiResult: 'calling...'
+      },
+      computed: {
+        currentContent () {
+          return routes[this.currentRoute] || 'This is not found'
+        }
+      },
+      mounted () {
+        this.callApi()
+      },
+      methods: {
+        go (path, event) {
+          event.preventDefault()
+          this.currentRoute = path
+          window.history.pushState(
+            null,
+            routes[path],
+            path
+          )
+          this.callApi()
+        },
+        callApi () {
+          superagent.get('api/echo' + this.currentRoute)
+            .end((err, res) => {
+              if (err) {
+                this.apiResult = err
+              } else {
+                this.apiResult = res.text
+              }
+            })
+        }
+      }
+    })
+    </script>
+  </body>
+</html>
+
