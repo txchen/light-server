@@ -184,6 +184,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2017-07-28** `2.2.1`
+Open localhost in browser instead of 0.0.0.0, because 0.0.0.0 is not working on win.
+
 **2017-07-26** `2.2.0`
 Add --proxypath. Add history fallback mode, for SPA development.
 

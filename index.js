@@ -104,7 +104,7 @@ LightServer.prototype.start = function () {
 
     if (_this.options.open) {
       var opener = require('opener')
-      opener(listeningAddr)
+      opener(listeningAddr.replace('://0.0.0.0:', '://localhost:'))
     }
   }).on('error', function (err) {
     if (err.errno === 'EADDRINUSE') {
