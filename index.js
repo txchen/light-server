@@ -58,7 +58,7 @@ LightServer.prototype.start = function () {
   )
 
   if (_this.options.serve) {
-    app.use(serveStatic(_this.options.serve))
+    app.use(serveStatic(_this.options.serve, { extensions: ['html'] }))
   }
 
   if (_this.options.proxy) {
