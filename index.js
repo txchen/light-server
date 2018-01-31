@@ -3,15 +3,15 @@
  *
  * Serve, watch, exucute commands and live-reload, all in one.
  *
- * Copyright (c) 2017 by Tianxiang Chen
+ * Copyright (c) 2018 by Tianxiang Chen
  */
 'use strict'
 
-var connect = require('connect')
 var morgan = require('morgan')
+var connect = require('connect')
 var serveStatic = require('serve-static')
 var injector = require('connect-injector')
-var Watcher = require('./watcher')
+var Gaze = require('gaze').Gaze
 var LR = require('./livereload')
 var spawn = require('child_process').spawn
 var os = require('os').type()
@@ -133,18 +133,20 @@ LightServer.prototype.watch = function () {
 
 LightServer.prototype.processWatchExp = function (filesToWatch, commandToRun, reloadOption) {
   var _this = this
-  var watcher = Watcher(filesToWatch, _this.options.interval)
-  watcher.on('change', function (f) {
-    if (watcher.executing) { return }
+  var gaze = new Gaze(filesToWatch, { interval: _this.options.interval })
 
-    watcher.executing = true
-    _this.writeLog('* file: ' + f + ' changed')
+  // A file has been added/changed/deleted has occurred
+  gaze.on('all', function(event, filepath) {
+    if (gaze.executing) { return }
+
+    gaze.executing = true
+    _this.writeLog('* file: ' + filepath + ' was ' + event)
     if (!commandToRun) {
       if (_this.lr) {
         _this.lr.trigger(reloadOption, _this.options.delay)
       }
 
-      watcher.executing = false
+      gaze.executing = false
       return
     }
 
@@ -161,7 +163,7 @@ LightServer.prototype.processWatchExp = function (filesToWatch, commandToRun, re
         }
       }
 
-      watcher.executing = false
+      gaze.executing = false
     })
   })
 

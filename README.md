@@ -186,6 +186,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2018-01-31** `2.4.0`
+Use gaze instead of fs.watch, so that we can detect new file added event.
+
 **2018-01-31** `2.3.0`
 Support multiple proxypaths in CLI and config. Upgrade deps.
 

@@ -5,7 +5,7 @@
  *
  * Serve, watch, exucute commands and live-reload, all in one.
  *
- * Copyright (c) 2017 by Tianxiang Chen
+ * Copyright (c) 2018 by Tianxiang Chen
  */
 'use strict'
 
