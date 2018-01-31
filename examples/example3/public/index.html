@@ -26,7 +26,8 @@
         </ul>
         <div>{{ currentContent }}</div>
         <hr>
-        <div>API result from server: {{ apiResult }}</div>
+        <div>API result 1 ({{ 'api/echo' + currentRoute }}) from server: <b>{{ apiResult1 }}</b></div>
+        <div>API result 2 ({{ 'auth' + currentRoute }}) from server: <b>{{ apiResult2 }}</b></div>
       </div>
     </div>
     <script>
@@ -39,7 +40,8 @@
       el: '#app',
       data: {
         currentRoute: window.location.pathname,
-        apiResult: 'calling...'
+        apiResult1: 'calling...',
+        apiResult2: 'calling...'
       },
       computed: {
         currentContent () {
@@ -64,9 +66,17 @@
           superagent.get('api/echo' + this.currentRoute)
             .end((err, res) => {
               if (err) {
-                this.apiResult = err
+                this.apiResult1 = err
               } else {
-                this.apiResult = res.text
+                this.apiResult1 = res.text
+              }
+            })
+          superagent.get('auth' + this.currentRoute)
+            .end((err, res) => {
+              if (err) {
+                this.apiResult2 = err
+              } else {
+                this.apiResult2 = res.text
               }
             })
         }

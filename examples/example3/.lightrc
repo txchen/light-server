@@ -6,5 +6,8 @@
  ],
  "historyindex": "/index.html",
  "proxy": "http://localhost:8010",
- "proxypath": "/api"
+ "proxypaths": [
+   "/api",
+   "/auth"
+ ]
 }

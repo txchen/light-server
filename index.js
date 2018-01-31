@@ -63,7 +63,7 @@ LightServer.prototype.start = function () {
 
   if (_this.options.proxy) {
     var proxy = require('./proxy')
-    app.use(proxy(_this.options.proxy, _this.options.proxypath).middleFunc)
+    app.use(proxy(_this.options.proxy, _this.options.proxypaths).middleFunc)
   }
 
   if (_this.options.historyindex) {
@@ -95,7 +95,7 @@ LightServer.prototype.start = function () {
 
     if (_this.options.proxy) {
       _this.writeLog('  when static file not found, proxy to ' + _this.options.proxy)
-      _this.writeLog('    if url path starts with "' + _this.options.proxypath + '"')
+      _this.writeLog('    if url path starts with "' + _this.options.proxypaths + '"')
     }
 
     _this.writeLog('')

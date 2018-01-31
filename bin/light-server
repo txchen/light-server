@@ -28,7 +28,7 @@ function main (argv) {
     .option('-i, --interval <watch inteval>', 'interval in ms of watching, default 500', parseInt)
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
-    .option('--proxypath <proxypath>', 'only send to proxy when path match this pattern, default is "/"')
+    .option('--proxypath <proxypath>', 'only send to proxy when path starts with this pattern, default is "/", repeatable', collect, [])
     .option('-o, --open', 'open browser automatically')
     .option('-q, --quiet', 'quiet mode with minimum log message')
     .option('--http2', 'enable http2 tls mode')
@@ -69,7 +69,7 @@ function main (argv) {
     interval: 500,
     delay: 0,
     bind: undefined,
-    proxypath: '/',
+    proxypaths: ['/'],
     watchexps: []
   }
   if (program.config) {
@@ -85,7 +85,7 @@ function main (argv) {
     serve: program.serve,
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
-    proxypath: program.proxypath,
+    proxypaths: program.proxypath.length ? program.proxypath: undefined,
     quiet: program.quiet,
     open: program.open,
     http2: program.http2,

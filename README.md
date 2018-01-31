@@ -56,7 +56,7 @@ Options:
   -i, --interval <watch inteval>       interval in ms of watching, default 500
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
-  --proxypath <proxypath>              only send to proxy when path match this pattern, default is "/"
+  --proxypath <proxypath>              only send to proxy when path starts with this pattern, default is "/", repeatable
   -q, --quiet                          quiet mode with minimum log message
   -o, --open                           open browser automatically
   --http2                              enable http2 tls mode
@@ -95,7 +95,7 @@ You don't need to use all the features, and that's totally ok:
 
 * You can serve http without watching files.
 * You can serve http and enable live-reload, without triggering command.
-* You can watch files and trigger command, without serving http. This makes light-server work like `nodemon`, with more flexibility.
+* You can watch files and trigger command, without serving http.
 
 ## Manual trigger live-reload
 
@@ -170,7 +170,7 @@ To use config file, create a json file and use `-c/--config`. The config templat
     "*.css # # reloadcss"
   ],
   "proxy": "http://localhost:9999",
-  "proxypath": "/api",
+  "proxypaths": [ "/api" ],
   "quiet": false,
   "open": true,
   "historyindex": "/index.html",
@@ -185,6 +185,9 @@ You can use comments in the json, because we love comments in json:) Also all th
 The values in the command line have higher priority than the ones in config file.
 
 ## Changelog
+
+**2018-01-31** `2.3.0`
+Support multiple proxypaths in CLI and config. Upgrade deps.
 
 **2018-01-30** `2.2.2`
 Add a default extension to static files. Thanks @sidewalksalsa for the PR.
