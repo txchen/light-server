@@ -2,7 +2,7 @@
 
 A lightweight cli static http server and it can watch files, execute commands and trigger livereload.
 
-## Why light-server?
+## Why light-server
 
 When I was writing some simple static web apps, it was helpful to have some tools to serve static http, to watch files and run command, and to trigger refresh in browser.
 
@@ -15,6 +15,7 @@ There are many existing tools in npm, but I could not find one to do all the thi
 Not lucky enough :(
 
 Then I wrote light-server, with the following features:
+
 * A simple static http server
 * Watch files, support multiple glob expressions
 * Trigger custom command if watched files change
@@ -33,13 +34,14 @@ And now my package.json is simpler and cleaner than before :)
 light-server has much smaller footprint, compared to browser-sync, so it is recommended to install in project level, and use it with npm script.
 
 ```bash
-$ npm install light-server
+npm install light-server
 ```
+
 Of course, you can install it globally, too.
 
 ## Usage
 
-```
+```text
 Usage: light-server [options]
 
 Options:
@@ -107,7 +109,7 @@ It means that it's possible to integrate other tools with light-server.
 
 Proxy feature is useful when our project is some backend language(like go, python) + static web page.
 
-For example, a golang web app exposes REST api via http://host/api/ and server static page from http://host/. Then, when we are writing/debugging the static pages, light-server can be helpful. We can firstly launch the whole app and listen at `http://localhost:9000`, then in another terminal window, launch light-server:
+For example, a golang web app exposes REST api via <http://host/api/> and server static page from <http://host/>. Then, when we are writing/debugging the static pages, light-server can be helpful. We can firstly launch the whole app and listen at `http://localhost:9000`, then in another terminal window, launch light-server:
 
 ```bash
 $ cd <your static pages dir>
@@ -178,7 +180,7 @@ To use config file, create a json file and use `-c/--config`. The config templat
 
 You can use comments in the json, because we love comments in json:) Also all the fields in the json are optional.
 
-[This](./example) is an example to show how to use the config file, thanks @Scarysize for making this.
+[This](./examples/example1/) is an example to show how to use the config file, thanks @Scarysize for making this.
 
 The values in the command line have higher priority than the ones in config file.
 
