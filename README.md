@@ -186,6 +186,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2018-01-30** `2.2.2`
+Add a default extension to static files. Thanks @sidewalksalsa for the PR.
+
 **2017-07-28** `2.2.1`
 Open localhost in browser instead of 0.0.0.0, because 0.0.0.0 is not working on win.
 
