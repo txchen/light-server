@@ -58,7 +58,11 @@ LightServer.prototype.start = function () {
   )
 
   if (_this.options.serve) {
-    app.use(serveStatic(_this.options.serve, { extensions: ['html'] }))
+    if(_this.options.servePrefix) {
+      app.use(_this.options.servePrefix, serveStatic(_this.options.serve, { extensions: ['html'] }))
+    } else {
+      app.use(serveStatic(_this.options.serve, { extensions: ['html'] }))
+    }
   }
 
   if (_this.options.proxy) {
@@ -91,6 +95,9 @@ LightServer.prototype.start = function () {
     console.log('light-server is listening at ' + listeningAddr)
     if (_this.options.serve) {
       _this.writeLog('  serving static dir: ' + _this.options.serve)
+      if(_this.options.servePrefix) {
+        _this.writeLog('  using prefix ' + _this.options.servePrefix)
+      }
     }
 
     if (_this.options.proxy) {
