@@ -22,7 +22,7 @@ function main (argv) {
   program.version(require('../package').version)
     .option('-c, --config <configfile>', 'read options from config file')
     .option('-s, --serve <directory>', 'serve the directory as static http')
-    .option('--servePrefix <prefix>', 'virtual path prefix')
+    .option('--servePrefix <prefix>', 'virtual path prefix for static directory')
     .option('-p, --port <port>', 'http server port, default 4000', parseInt)
     .option('-b, --bind <bind>', 'bind to a specific host, default 0.0.0.0')
     .option('-w, --watchexp <watch expression>', 'watch expression, repeatable', collect, [])
