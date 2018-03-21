@@ -1,6 +1,6 @@
 {
   "name": "light-server",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "an http server that can watch files, trigger commands and livereload",
   "main": "index.js",
   "repository": {

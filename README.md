@@ -188,6 +188,9 @@ The values in the command line have higher priority than the ones in config file
 
 ## Changelog
 
+**2018-03-21** `2.4.1`
+Add serve prefix option. Thanks @AurelienRichez for the PR.
+
 **2018-01-31** `2.4.0`
 Use gaze instead of fs.watch, so that we can detect new file added event.
 
