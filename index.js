@@ -42,27 +42,25 @@ LightServer.prototype.start = function () {
   var app = connect()
   !this.options.quiet && app.use(morgan('dev'))
 
-  _this.lr = LR({
-    quiet: _this.options.quiet,
-    http2: _this.options.http2
-  })
-  app.use(_this.lr.middleFunc)
-  app.use(injector(
-    function (req, res) {
-      return res.getHeader('content-type') && res.getHeader('content-type').indexOf('text/html') !== -1
-    },
-
-    function (data, req, res, callback) {
-      callback(null, data.toString().replace('</body>', '<script src="/__lightserver__/reload-client.js"></script></body>'))
+  if (!_this.options.noReload) {
+    _this.lr = LR({
+      quiet: _this.options.quiet,
+      http2: _this.options.http2
     })
-  )
+    app.use(_this.lr.middleFunc)
+    app.use(injector(
+      function (req, res) {
+        return res.getHeader('content-type') && res.getHeader('content-type').indexOf('text/html') !== -1
+      },
+
+      function (data, req, res, callback) {
+        callback(null, data.toString().replace('</body>', '<script src="/__lightserver__/reload-client.js"></script></body>'))
+      })
+    )
+  }
 
   if (_this.options.serve) {
-    if (_this.options.servePrefix) {
-      app.use(_this.options.servePrefix, serveStatic(_this.options.serve, { extensions: ['html'] }))
-    } else {
-      app.use(serveStatic(_this.options.serve, { extensions: ['html'] }))
-    }
+    app.use(_this.options.servePrefix || '', serveStatic(_this.options.serve, { extensions: ['html'] }))
   }
 
   if (_this.options.proxy) {
@@ -80,7 +78,6 @@ LightServer.prototype.start = function () {
   if (_this.options.http2) {
     var fs = require('fs')
     var path = require('path')
-    console.log(__dirname)
     server = require('spdy').createServer({
       key: fs.readFileSync(path.join(__dirname, '/localhost.key')),
       cert: fs.readFileSync(path.join(__dirname, '/localhost.crt'))
@@ -106,7 +103,9 @@ LightServer.prototype.start = function () {
     }
 
     _this.writeLog('')
-    _this.lr.startWS(server) // websocket shares same port with http
+    if (_this.lr) {
+      _this.lr.startWS(server) // websocket shares same port with http
+    }
     _this.watch()
 
     if (_this.options.open) {
@@ -134,7 +133,12 @@ LightServer.prototype.watch = function () {
       reloadOption = 'reload' // default value
     }
 
-    _this.processWatchExp(filesToWatch, commandToRun, reloadOption)
+    if (commandToRun || _this.lr) {
+      _this.processWatchExp(filesToWatch, commandToRun, reloadOption)
+    } else {
+      console.log('## WARNING: Ignoring watch expression "' + we + '", because '
+                  + 'it doesn\'t specify a command and live-reloading is disabled.')
+    }
   })
 }
 
@@ -180,8 +184,9 @@ LightServer.prototype.processWatchExp = function (filesToWatch, commandToRun, re
     if (commandToRun) {
       _this.writeLog('  this command will be executed:      ' + commandToRun)
     }
-
-    _this.writeLog('  this event will be sent to browser: ' + reloadOption + '\n')
+    if (_this.lr) {
+      _this.writeLog('  this event will be sent to browser: ' + reloadOption + '\n')
+    }
   }
 }
 
