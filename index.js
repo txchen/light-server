@@ -58,11 +58,7 @@ LightServer.prototype.start = function () {
   )
 
   if (_this.options.serve) {
-    if (_this.options.servePrefix) {
-      app.use(_this.options.servePrefix, serveStatic(_this.options.serve, { extensions: ['html'] }))
-    } else {
-      app.use(serveStatic(_this.options.serve, { extensions: ['html'] }))
-    }
+    app.use(_this.options.servePrefix || '', serveStatic(_this.options.serve, { extensions: ['html'] }))
   }
 
   if (_this.options.proxy) {
@@ -80,7 +76,6 @@ LightServer.prototype.start = function () {
   if (_this.options.http2) {
     var fs = require('fs')
     var path = require('path')
-    console.log(__dirname)
     server = require('spdy').createServer({
       key: fs.readFileSync(path.join(__dirname, '/localhost.key')),
       cert: fs.readFileSync(path.join(__dirname, '/localhost.crt'))
