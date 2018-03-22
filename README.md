@@ -191,6 +191,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2018-03-22** `2.5.0`
+Add no-reload option. Thanks @gkalpak for the PR.
+
 **2018-03-21** `2.4.1`
 Add serve prefix option. Thanks @AurelienRichez for the PR.
 
