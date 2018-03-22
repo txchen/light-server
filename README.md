@@ -58,6 +58,7 @@ Options:
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
   --proxypath <proxypath>              only send to proxy when path starts with this pattern, default is "/", repeatable
+  --no-reload                          disable live-reloading
   -q, --quiet                          quiet mode with minimum log message
   -o, --open                           open browser automatically
   --http2                              enable http2 tls mode
@@ -174,6 +175,7 @@ To use a config file, create a json file and use `-c/--config`. The config templ
   "delay": 0,
   "proxy": "http://localhost:9999",
   "proxypaths": [ "/api" ],
+  "noReload": false,
   "quiet": false,
   "open": true,
   "http2": false,

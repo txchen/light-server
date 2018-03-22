@@ -30,6 +30,7 @@ function main (argv) {
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .option('--proxypath <proxypath>', 'only send to proxy when path starts with this pattern, default is "/", repeatable', collect, [])
+    .option('--no-reload', 'disable live-reloading')
     .option('-q, --quiet', 'quiet mode with minimum log message')
     .option('-o, --open', 'open browser automatically')
     .option('--http2', 'enable http2 tls mode')
@@ -89,6 +90,7 @@ function main (argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     proxypaths: program.proxypath.length ? program.proxypath: undefined,
+    noReload: !program.reload,
     quiet: program.quiet,
     open: program.open,
     http2: program.http2,
