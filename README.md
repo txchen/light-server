@@ -101,9 +101,9 @@ You don't need to use all the features, and that's totally ok:
 
 ## Manual trigger live-reload
 
-Get or POST `http://localhost:PORT/__lightserver__/trigger`, light-server will send reload event to the browser.
+GET or POST `http://localhost:PORT/__lightserver__/trigger`, light-server will send reload event to the browser.
 
-Get or POST `http://localhost:PORT/__lightserver__/triggercss`, Light-server will send reloadcss event to the browser.
+GET or POST `http://localhost:PORT/__lightserver__/triggercss`, light-server will send reloadcss event to the browser.
 
 It means that it's possible to integrate other tools with light-server.
 
@@ -124,7 +124,7 @@ This is cool because now you can have live-reload, without changing the golang a
 
 ## Example
 
-Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen/riot-hn) is static web app powered by riotjs. This is its package.json:
+Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen/riot-hn) is a static web app powered by riotjs. This is its package.json:
 
 ```json
 {
@@ -156,35 +156,36 @@ Of course, you can also achieve that by using grunt or gulp, with more dependenc
 
 ## Config file
 
-Light-server also supports read options from config file, it might be useful if the command line is too long in your package.json.
+Light-server also supports reading options from a config file. This might be useful if the command line is too long in your package.json.
 
-To use config file, create a json file and use `-c/--config`. The config template is like this:
+To use a config file, create a json file and use `-c/--config`. The config template is like this:
 
 ```json
 {
-  "port": 8000,
-  "interval": 500,
-  "delay": 0,
-  "bind": "localhost",
   "serve": "src",
+  "servePrefix": "/assets",
+  "port": 8000,
+  "bind": "localhost",
   "watchexps": [
     "**.js # npm run build",
     "*.css # # reloadcss"
   ],
+  "interval": 500,
+  "delay": 0,
   "proxy": "http://localhost:9999",
   "proxypaths": [ "/api" ],
   "quiet": false,
   "open": true,
-  "historyindex": "/index.html",
-  "http2": false
+  "http2": false,
+  "historyindex": "/index.html"
 }
 ```
 
-You can use comments in the json, because we love comments in json:) Also all the fields in the json are optional.
+You can use comments in the json, because we love comments in json :) Also all the fields in the json are optional.
 
 [This](./examples/example1/) is an example to show how to use the config file, thanks @Scarysize for making this.
 
-The values in the command line have higher priority than the ones in config file.
+The values in the command line have higher priority than the ones in the config file.
 
 ## Changelog
 
