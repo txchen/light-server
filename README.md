@@ -139,7 +139,7 @@ Let's take a look at a real example. [Riot-Hackernews](https://github.com/txchen
     "build": "npm run build:js && npm run build:css",
     "build:js": "browserify -t [riotify --ext html] -d src/index.js -p [minifyify --compressPath . --map index.js.map --output build/index.js.map] -o build/index.js",
     "build:css": "cp src/main.css build/main.css",
-    "dev": "light-server -s . -p 9090 -w 'src/**/*.js, src/**/*.html # npm run build:js' -w 'src/main.css # npm run build:css # reloadcss'"
+    "dev": "light-server -s . -p 9090 -w \"src/**/*.js, src/**/*.html # npm run build:js\" -w \"src/main.css # npm run build:css # reloadcss\""
   },
   "dependencies": {
     "riot": "^2.0.11"
@@ -152,6 +152,8 @@ The project uses browserify and plugins to bundle the source code into a single 
 The build process is defined in script `build`, which is quite straightforward.
 
 During development, we can use `npm run dev`, which will use light-server to serve the static content, and watch the changes of any js/html files under `src` directory. When it detects file change, it would trigger build and if build pass, browser will auto reload. And light-server will watch the source css file, when it changes, trigger reloadcss, which is faster than page refresh.
+
+Please notice that windows cannot handle single quotes well, so make sure you are using double quotes when you write complex watch expressions. Or, use the config file described below.
 
 Of course, you can also achieve that by using grunt or gulp, with more dependencies and more LOC.
 
@@ -190,6 +192,10 @@ You can use comments in the json, because we love comments in json :) Also all t
 The values in the command line have higher priority than the ones in the config file.
 
 ## Changelog
+
+**2018-05-10** `2.5.1`
+
+Bug fix: #38.
 
 **2018-03-22** `2.5.0`
 Add no-reload option. Thanks @gkalpak for the PR.
