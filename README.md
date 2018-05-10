@@ -194,7 +194,6 @@ The values in the command line have higher priority than the ones in the config 
 ## Changelog
 
 **2018-05-10** `2.5.1`
-
 Bug fix: #38.
 
 **2018-03-22** `2.5.0`
