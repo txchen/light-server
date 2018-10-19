@@ -1,8 +1,5 @@
 {
   "scripts": {
-    "dev": "light-server -c .lightrc"
-  },
-  "dependencies": {
-    "light-server": "../../"
+    "dev": "../../bin/light-server -c .lightrc"
   }
 }
