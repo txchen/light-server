@@ -83,11 +83,11 @@ LightServer.prototype.start = function () {
   if (_this.options.serve) {
     app.use(
       _this.options.servePrefix || '',
-      serveStatic(_this.options.serve, { extensions: ['html'] })
+      serveStatic(_this.options.serve, { extensions: ['html'], redirect: false })
     )
     app.use(
       _this.options.servePrefix || '',
-      serveIndex(_this.options.serve, { 'icons': true })
+      serveIndex(_this.options.serve, { icons: true })
     )
   }
 
