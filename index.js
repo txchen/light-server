@@ -10,6 +10,7 @@
 var morgan = require('morgan')
 var connect = require('connect')
 var serveStatic = require('serve-static')
+var serveIndex = require('serve-index')
 var injector = require('connect-injector')
 var Gaze = require('gaze').Gaze
 var LR = require('./livereload')
@@ -83,6 +84,10 @@ LightServer.prototype.start = function () {
     app.use(
       _this.options.servePrefix || '',
       serveStatic(_this.options.serve, { extensions: ['html'] })
+    )
+    app.use(
+      _this.options.servePrefix || '',
+      serveIndex(_this.options.serve, { 'icons': true })
     )
   }
 
