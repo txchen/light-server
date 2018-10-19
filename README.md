@@ -194,7 +194,7 @@ The values in the command line have higher priority than the ones in the config 
 ## Changelog
 
 **2018-10-18** `2.6.0`
-Bug fix: #41. Added list dir feature for
+Bug fix: #41. Added list dir feature for #42.
 
 **2018-05-10** `2.5.1`
 Bug fix: #38.
