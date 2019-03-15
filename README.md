@@ -193,6 +193,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2019-03-15** `2.6.1`
+Bug fix: #45.
+
 **2018-10-18** `2.6.0`
 Bug fix: #41. Added list dir feature for #42.
 
