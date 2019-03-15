@@ -4,12 +4,12 @@
     "fedev": "../../bin/light-server -c .lightrc"
   },
   "dependencies": {
-    "koa": "^2.5.3",
+    "koa": "^2.7.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa2-history-api-fallback": "0.0.5"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.10"
   }
 }
