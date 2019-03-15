@@ -80,7 +80,17 @@ LightServer.prototype.start = function () {
     )
   }
 
+  if (_this.options.proxy) {
+    var proxy = require('./proxy')
+    app.use(proxy(_this.options.proxy, _this.options.proxypaths).middleFunc)
+  }
+
   if (_this.options.serve) {
+    if (_this.options.historyindex) {
+      var history = require('connect-history-api-fallback')
+      app.use(history({ index: _this.options.historyindex }))
+    }
+
     app.use(
       _this.options.servePrefix || '',
       serveStatic(_this.options.serve, { extensions: ['html'], redirect: false })
@@ -89,17 +99,6 @@ LightServer.prototype.start = function () {
       _this.options.servePrefix || '',
       serveIndex(_this.options.serve, { icons: true })
     )
-  }
-
-  if (_this.options.proxy) {
-    var proxy = require('./proxy')
-    app.use(proxy(_this.options.proxy, _this.options.proxypaths).middleFunc)
-  }
-
-  if (_this.options.historyindex) {
-    var history = require('connect-history-api-fallback')
-    app.use(history({ index: _this.options.historyindex }))
-    app.use(serveStatic(_this.options.serve))
   }
 
   var server
