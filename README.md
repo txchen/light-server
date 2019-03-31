@@ -193,6 +193,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2019-03-30** `2.6.2`
+Bug fix: #46.
+
 **2019-03-15** `2.6.1`
 Bug fix: #45.
 
