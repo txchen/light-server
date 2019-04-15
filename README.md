@@ -8,7 +8,7 @@ When I was writing some simple static web apps, it was helpful to have some tool
 
 I think the scenario is not too complicated, so I don't want to use heavy tools like grunt or gulp. IMO, npm script with cli tools is already enough.
 
-Here is an [article](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) about using npm to replace grunt/gulp, I really like it.
+Here is an [article](https://www.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/) about using npm to replace grunt/gulp, I really like it.
 
 There are many existing tools in npm, but I could not find one to do all the things for me. Well, actually browser-sync is one, but it offers too many features I don't need, and its installation time is really, unacceptable.
 
