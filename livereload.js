@@ -74,7 +74,7 @@ Livereload.prototype.middleFunc = function livereload (req, res, next) {
   }
 
   if (req.method === 'GET' && pathname === clientJsPath) {
-    res.writeHead(200)
+    res.writeHead(200, { 'Content-Type': 'application/javascript' })
     res.end(clientJsContent)
     return
   }
