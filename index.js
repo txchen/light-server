@@ -80,7 +80,6 @@ LightServer.prototype.start = function () {
     )
   }
 
-
   if (_this.options.serve) {
     if (_this.options.proxy) {
       var proxy = require('./proxy')
