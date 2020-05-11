@@ -23,20 +23,20 @@
     "light-server": "bin/light-server"
   },
   "dependencies": {
-    "commander": "^2.20.0",
+    "commander": "^5.1.0",
     "connect": "^3.7.0",
     "connect-history-api-fallback": "^1.6.0",
     "connect-injector": "^0.4.4",
     "gaze": "^1.1.3",
-    "http-proxy": "^1.17.0",
-    "morgan": "~1.9.1",
+    "http-proxy": "^1.18.0",
+    "morgan": "~1.10.0",
     "opener": "^1.5.1",
     "parseurl": "^1.3.3",
     "serve-index": "^1.9.1",
     "serve-static": "~1.14.1",
-    "spdy": "^4.0.0",
-    "strip-json-comments": "^3.0.1",
-    "ws": "^7.1.0"
+    "spdy": "^4.0.2",
+    "strip-json-comments": "^3.1.0",
+    "ws": "^7.3.0"
   },
   "author": "Tianxiang Chen",
   "license": "MIT",
@@ -45,6 +45,6 @@
   },
   "homepage": "https://github.com/txchen/light-server",
   "devDependencies": {
-    "eslint": "^5.15.2"
+    "eslint": "^7.0.0"
   }
 }
