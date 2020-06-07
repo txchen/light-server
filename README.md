@@ -193,6 +193,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2020-06-07** `2.6.5`
+Upgrade dependencies.
+
 **2019-09-14** `2.6.4`
 Upgrade dependencies. Bug fix: #54.
 
