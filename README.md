@@ -80,7 +80,7 @@ Examples:
 
 Watch expression syntax: "files[,files] # [command to run] # [reload action]"
   3 parts delimited by #
-  1st part: files to watch, support glob format, delimited by ","
+  1st part: files to watch, support glob format, delimited by ",", support negate patterns (by [gaze](https://github.com/shama/gaze)).
   2nd part: (optional) command to run, before reload
   3rd part: (optional) reload action, default is "reload", also supports "reloadcss" or "no-reload" to run a command without a browser refresh
   Examples:
@@ -88,6 +88,7 @@ Watch expression syntax: "files[,files] # [command to run] # [reload action]"
     "*.css # # reloadcss"
     "** # make"
     "**/*.js # npm run build # no-reload"
+    "**,!logs/**"
 ```
 
 It is quite simple, specify the folder to serve as static http, specify the files to watch, specify the command to run when watched files change, and light-server will do the job.
