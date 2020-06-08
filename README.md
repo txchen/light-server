@@ -168,6 +168,7 @@ To use a config file, create a json file and use `-c/--config`. The config templ
 {
   "serve": "src",
   "servePrefix": "/assets",
+  "serveRedirect": false,
   "port": 8000,
   "bind": "localhost",
   "watchexps": [
@@ -193,6 +194,9 @@ You can use comments in the json, because we love comments in json :) Also all t
 The values in the command line have higher priority than the ones in the config file.
 
 ## Changelog
+
+**2020-06-07** `2.7.0`
+Add option 'serveRedirect' in rc file, #58.
 
 **2020-06-07** `2.6.5`
 Upgrade dependencies.

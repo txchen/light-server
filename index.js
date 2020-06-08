@@ -93,7 +93,10 @@ LightServer.prototype.start = function () {
 
     app.use(
       _this.options.servePrefix || '',
-      serveStatic(_this.options.serve, { extensions: ['html'], redirect: false, fallthrough: true })
+      serveStatic(_this.options.serve, {
+        extensions: ['html'],
+        redirect: _this.options.serveRedirect === true,
+        fallthrough: true })
     )
     app.use(
       _this.options.servePrefix || '',
