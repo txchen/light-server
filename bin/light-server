@@ -58,6 +58,7 @@ function main (argv) {
       console.log('      "**/*.js, index.html # npm run build # reload"')
       console.log('      "*.css # # reloadcss"')
       console.log('      "** # make"')
+      console.log('      "**,!logs/**')
       console.log('')
     })
 
