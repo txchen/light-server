@@ -60,7 +60,7 @@ Options:
   --proxypath <proxypath>              only send to proxy when path starts with this pattern, default is "/", repeatable
   --no-reload                          disable live-reloading
   -q, --quiet                          quiet mode with minimum log message
-  -o, --open                           open browser automatically
+  -o, --open [path]                    open browser automatically, optional path
   --http2                              enable http2 tls mode
   --historyindex <historyindex>        404 fallback index path, used by SPA development
 
