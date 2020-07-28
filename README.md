@@ -195,6 +195,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2020-07-28** `2.8.0`
+Allow passing a path into the open option, #64.
+
 **2020-06-07** `2.7.0`
 Add option 'serveRedirect' in rc file, #58.
 
