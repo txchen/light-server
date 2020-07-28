@@ -152,7 +152,9 @@ LightServer.prototype.start = function () {
       if (_this.options.open) {
         var opener = require('opener')
         var openAddr = listeningAddr.replace('://0.0.0.0:', '://localhost:')
-        if (_this.options.servePrefix) {
+        if (typeof _this.options.open === 'string') {
+          openAddr += _this.options.open
+        } else if (_this.options.servePrefix) {
           openAddr += _this.options.servePrefix
         }
         opener(openAddr)

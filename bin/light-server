@@ -32,7 +32,7 @@ function main (argv) {
     .option('--proxypath <proxypath>', 'only send to proxy when path starts with this pattern, default is "/", repeatable', collect, [])
     .option('--no-reload', 'disable live-reloading')
     .option('-q, --quiet', 'quiet mode with minimum log message')
-    .option('-o, --open', 'open browser automatically')
+    .option('-o, --open [path]', 'open browser automatically, optional path')
     .option('--http2', 'enable http2 tls mode')
     .option('--historyindex <historyindex>', '404 fallback index path, used by SPA development')
     .on('--help', function () {
