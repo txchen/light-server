@@ -19,6 +19,12 @@ function main (argv) {
     return memo
   }
 
+  var noReload
+
+  function parseReload () {
+    noReload = true
+  }
+
   program.version(require('../package').version)
     .option('-c, --config <configfile>', 'read options from config file')
     .option('-s, --serve <directory>', 'serve the directory as static http')
@@ -30,7 +36,7 @@ function main (argv) {
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .option('--proxypath <proxypath>', 'only send to proxy when path starts with this pattern, default is "/", repeatable', collect, [])
-    .option('--no-reload', 'disable live-reloading')
+    .option('--no-reload', 'disable live-reloading', parseReload)
     .option('-q, --quiet', 'quiet mode with minimum log message')
     .option('-o, --open [path]', 'open browser automatically, optional path')
     .option('--http2', 'enable http2 tls mode')
@@ -91,7 +97,7 @@ function main (argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     proxypaths: program.proxypath.length ? program.proxypath: undefined,
-    noReload: !program.reload,
+    noReload,
     quiet: program.quiet,
     open: program.open,
     http2: program.http2,
@@ -99,6 +105,8 @@ function main (argv) {
   }
   cliOptions = JSON.parse(JSON.stringify(cliOptions)) // remove undefined properties
   Object.assign(options, cliOptions)
+  // set to false not CLI nor JSON was set
+  options.noReload = !!options.noReload;
 
   if (!options.serve && !options.watchexps.length && !options.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
