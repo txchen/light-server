@@ -195,6 +195,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2020-10-16** `2.9.0`
+Update localhost.crt/localhost.key, make key length to 2048.
+
 **2020-07-28** `2.8.0`
 Allow passing a path into the open option, #64.
 
