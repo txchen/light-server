@@ -195,6 +195,9 @@ The values in the command line have higher priority than the ones in the config 
 
 ## Changelog
 
+**2020-10-16** `2.9.1`
+Fix the issue that noReload cannot be turned on in config file.
+
 **2020-10-16** `2.9.0`
 Update localhost.crt/localhost.key, make key length to 2048.
 

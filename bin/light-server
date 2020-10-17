@@ -91,7 +91,7 @@ function main (argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     proxypaths: program.proxypath.length ? program.proxypath: undefined,
-    noReload: !program.reload,
+    noReload: program.reload ? undefined : true,
     quiet: program.quiet,
     open: program.open,
     http2: program.http2,
