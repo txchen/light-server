@@ -30,6 +30,8 @@ function main (argv) {
     .option('-d, --delay <livereolad delay>', 'delay in ms before triggering live reload, default 0', parseInt)
     .option('-x, --proxy <upstreamurl>', 'when file not found, proxy the request to another server')
     .option('--proxypath <proxypath>', 'only send to proxy when path starts with this pattern, default is "/", repeatable', collect, [])
+    .option('--pathRewriteRule <regexp>', 'when proxying, rewrite request path based on --pathRewriteRule and --pathRewriteTo, note that you must exact match the number with --pathRewriteTo, repeatable', collect, [])
+    .option('--pathRewriteTo <path>', 'when proxying, rewrite request path based on --pathRewriteRule and --pathRewriteTo, note that you must exact match the number with --pathRewriteRule, repeatable', collect, [])
     .option('--no-reload', 'disable live-reloading')
     .option('-q, --quiet', 'quiet mode with minimum log message')
     .option('-o, --open [path]', 'open browser automatically, optional path')
@@ -46,6 +48,7 @@ function main (argv) {
       console.log('    $ light-server -s . -x http://localhost:8000 --servePrefix /assets')
       console.log('    $ light-server -s . -b 10.0.0.1')
       console.log('    $ light-server -x http://localhost:9999 --proxypath "/api" -w "public/**"')
+      console.log('    $ light-server -x http://localhost:9999 --proxypath "/api" --pathRewriteRule "^/api" --pathRewriteTo "\"\""')
       console.log('    $ light-server -s static -w "**/*.css # # reloadcss"')
       console.log('    $ light-server -c .lightserverrc')
       console.log('')
@@ -74,6 +77,8 @@ function main (argv) {
     delay: 0,
     bind: undefined,
     proxypaths: ['/'],
+    pathRewriteRule: [],
+    pathRewriteTo: [],
     watchexps: []
   }
   if (program.config) {
@@ -91,6 +96,8 @@ function main (argv) {
     watchexps: program.watchexp.length ? program.watchexp : undefined,
     proxy: program.proxy,
     proxypaths: program.proxypath.length ? program.proxypath: undefined,
+    pathRewriteRule: program.pathRewriteRule.length ? program.pathRewriteRule: undefined,
+    pathRewriteTo: program.pathRewriteTo.length ? program.pathRewriteTo: undefined,
     noReload: program.reload ? undefined : true,
     quiet: program.quiet,
     open: program.open,
@@ -103,6 +110,13 @@ function main (argv) {
   if (!options.serve && !options.watchexps.length && !options.proxy) {
     console.log('Please use http-server and/or watch and/or proxy, but not nothing.')
     process.exit(1)
+  }
+
+  if (options.pathRewriteRule.length > 1) {
+    if (options.pathRewriteRule.length !== options.pathRewriteTo.length) {
+      console.error('Please exact match the number of options of --pathRewriteRule and those of --pathRewriteTo.')
+      process.exit(1)
+    }
   }
 
   LightServer(options).start()
