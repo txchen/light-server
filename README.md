@@ -58,6 +58,10 @@ Options:
   -d, --delay <livereolad delay>       delay in ms before triggering live reload, default 0
   -x, --proxy <upstreamurl>            when file not found, proxy the request to another server
   --proxypath <proxypath>              only send to proxy when path starts with this pattern, default is "/", repeatable
+  --pathRewriteRule <regexp>           when proxying, rewrite request path based on --pathRewriteRule and --pathRewriteTo, note that you must exact match the number with --pathRewriteTo
+  --pathRewriteTo <path>               when proxying, rewrite request path based on --pathRewriteRule and --pathRewriteTo, note that you must exact match the number with --pathRewriteRule, repeatable
+
+ 
   --no-reload                          disable live-reloading
   -q, --quiet                          quiet mode with minimum log message
   -o, --open [path]                    open browser automatically, optional path
@@ -74,6 +78,7 @@ Examples:
   $ light-server -s . -x http://localhost:8000 --servePrefix /assets
   $ light-server -s . -b 10.0.0.1
   $ light-server -x http://localhost:9999 --proxypath "/api" -w "public/**"
+  $ light-server -x http://localhost:9999 --proxypath "/api" --pathRewriteRule "^/api" --pathRewriteTo "\"\""'
   $ light-server -s static -w "**/*.css # # reloadcss"
   $ light-server -c .lightserverrc
   & light-server -s . -p 8000 -w "src/**/*.js # npm run js # no-reload"
@@ -179,6 +184,8 @@ To use a config file, create a json file and use `-c/--config`. The config templ
   "delay": 0,
   "proxy": "http://localhost:9999",
   "proxypaths": [ "/api" ],
+  "pathRewriteRule": [ "^/api" ],
+  "pathRewriteTo": [ "" ],
   "noReload": false,
   "quiet": false,
   "open": true,
