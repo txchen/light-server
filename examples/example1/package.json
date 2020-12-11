@@ -31,11 +31,11 @@
   },
   "homepage": "https://github.com/Scarysize/pug-stylus-es5-boilerplate#readme",
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
     "autoprefixer-stylus": "^1.0.0",
     "babelify": "^10.0.0",
-    "browserify": "^16.5.1",
+    "browserify": "^17.0.0",
     "pug": "^3.0.0",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.8"

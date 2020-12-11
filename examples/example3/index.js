@@ -6,12 +6,12 @@ const historyFallback = require('koa2-history-api-fallback')
 const app = new Koa()
 const router = new Router()
 
-router.get('/api/echo/*', (ctx) => {
+router.get('/api/echo/(.*)', (ctx) => {
   // ctx.router available
   ctx.body = 'Echo from server: ' + ctx.req.url
 })
 
-router.get('/auth/*', (ctx) => {
+router.get('/auth/(.*)', (ctx) => {
   // ctx.router available
   ctx.body = 'Auth check from server: ' + ctx.req.url
 })
