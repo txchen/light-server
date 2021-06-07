@@ -1,3 +1,7 @@
+# -- Deprecated --
+
+Please use [vite](https://vitejs.dev/) instead.
+
 # light-server
 
 A lightweight cli static http server and it can watch files, execute commands and trigger livereload.
