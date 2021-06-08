@@ -36,7 +36,7 @@
     "autoprefixer-stylus": "^1.0.0",
     "babelify": "^10.0.0",
     "browserify": "^16.5.1",
-    "pug": "^3.0.0",
+    "pug": "^3.0.1",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.8"
   }
