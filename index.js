@@ -82,8 +82,16 @@ LightServer.prototype.start = function () {
 
   if (_this.options.serve) {
     if (_this.options.proxy) {
-      var proxy = require('./proxy')
-      app.use(proxy(_this.options.proxy, _this.options.proxypaths).middleFunc)
+      var { createProxyMiddleware } = require('http-proxy-middleware')
+      var proxyOptions = {
+        target: _this.options.proxy,
+        changeOrigin: true,
+        pathRewrite: {},
+      }
+      _this.options.pathRewriteRule.forEach(function(rule, index) {
+        proxyOptions.pathRewrite[rule] = _this.options.pathRewriteTo[index]
+      })
+      app.use(createProxyMiddleware(_this.options.proxypaths, proxyOptions))
     }
 
     if (_this.options.historyindex) {
