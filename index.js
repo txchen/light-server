@@ -104,11 +104,11 @@ LightServer.prototype.start = function () {
       app.use(proxy(_this.options.proxy, _this.options.proxypaths).middleFunc);
     }
   }
+  var fs = require("fs");
+  var path = require("path");
 
   var server;
   if (_this.options.http2) {
-    var fs = require("fs");
-    var path = require("path");
     server = require("spdy").createServer(
       {
         key: fs.readFileSync(path.join(__dirname, "/localhost.key")),
@@ -117,13 +117,19 @@ LightServer.prototype.start = function () {
       app
     );
   } else {
-    server = require("http").createServer(app);
+    server = require("https").createServer(
+      {
+        key: fs.readFileSync(path.join(__dirname, "/localhost.key")),
+        cert: fs.readFileSync(path.join(__dirname, "/localhost.crt")),
+      },
+      app
+    );
   }
 
   server
     .listen(_this.options.port, _this.options.bind, function () {
       var listeningAddr =
-        (_this.options.http2 ? "https://" : "http://") +
+        (_this.options.http2 ? "https://" : "https://") +
         (_this.options.bind || "0.0.0.0") +
         ":" +
         _this.options.port;
